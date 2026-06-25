@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access Token Copier</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: 300px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 20px;
+      }
+
+      .header {
+        position: relative;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-right: 28px;
+      }
+
+      .header h1 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #f8fafc;
+        letter-spacing: 0.5px;
+      }
+
+      .header p {
+        font-size: 11px;
+        color: #64748b;
+        margin-top: 4px;
+      }
+
+      .settings-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #94a3b8;
+        cursor: pointer;
+        transition:
+          color 0.2s,
+          transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .settings-btn:hover {
+        color: #f8fafc;
+      }
+
+      .settings-btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+
+      .settings-panel {
+        display: none;
+        margin-bottom: 18px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 12px;
+      }
+
+      .settings-panel.show {
+        display: block;
+      }
+
+      .settings-panel h2 {
+        font-size: 12px;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .settings-section {
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid #334155;
+      }
+
+      .settings-section h3 {
+        font-size: 10px;
+        font-weight: 700;
+        color: #94a3b8;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-clear {
+        background: #dc2626;
+        color: #fff;
+      }
+
+      .btn-clear:hover {
+        background: #b91c1c;
+      }
+
+      .settings-empty {
+        font-size: 11px;
+        color: #64748b;
+        text-align: center;
+        font-style: italic;
+      }
+
+      .cookie-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #334155;
+      }
+
+      .cookie-toggle:last-child {
+        border-bottom: none;
+      }
+
+      .cookie-toggle span {
+        font-size: 12px;
+        color: #e2e8f0;
+        word-break: break-all;
+        padding-right: 10px;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #475569;
+        transition: 0.2s;
+        border-radius: 20px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #f8fafc;
+        transition: 0.2s;
+        border-radius: 50%;
+      }
+
+      .switch input:checked + .slider {
+        background-color: #2563eb;
+      }
+
+      .switch input:checked + .slider:before {
+        transform: translateX(16px);
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid #1e293b;
+        margin-bottom: 18px;
+      }
+
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 11px 16px;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.1s,
+          opacity 0.2s;
+        margin-bottom: 10px;
+        letter-spacing: 0.3px;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn-copy {
+        background: #2563eb;
+        color: #fff;
+      }
+
+      .btn-copy:hover {
+        background: #1d4ed8;
+      }
+
+      .btn-paste {
+        background: #16a34a;
+        color: #fff;
+      }
+
+      .btn-paste:hover {
+        background: #15803d;
+      }
+
+      .btn-view {
+        background: #7c3aed;
+        color: #fff;
+      }
+
+      .btn-view:hover {
+        background: #6d28d9;
+      }
+
+      .btn svg {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+      }
+
+      .status {
+        margin-top: 6px;
+        padding: 10px 12px;
+        border-radius: 7px;
+        font-size: 12px;
+        line-height: 1.5;
+        display: none;
+      }
+
+      .status.show {
+        display: block;
+      }
+
+      .status.success {
+        background: #052e16;
+        color: #86efac;
+        border: 1px solid #166534;
+      }
+
+      .status.error {
+        background: #2d0a0a;
+        color: #fca5a5;
+        border: 1px solid #7f1d1d;
+      }
+
+      .status.info {
+        background: #1e1b4b;
+        color: #c4b5fd;
+        border: 1px solid #4c1d95;
+      }
+
+      .token-box {
+        margin-top: 10px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 7px;
+        padding: 10px;
+        display: none;
+      }
+
+      .token-box.show {
+        display: block;
+      }
+
+      .token-box label {
+        font-size: 10px;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+
+      .token-value {
+        margin-top: 6px;
+        font-size: 11px;
+        color: #a5b4fc;
+        word-break: break-all;
+        font-family: "Courier New", monospace;
+        max-height: 80px;
+        overflow-y: auto;
+        line-height: 1.5;
+      }
+
+      .token-value::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .token-value::-webkit-scrollbar-track {
+        background: #0f172a;
+      }
+
+      .token-value::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 2px;
+      }
+
+      .no-token {
+        font-size: 11px;
+        color: #64748b;
+        font-style: italic;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🔑 Access Token Copier</h1>
+      <p>Manage access_token cookies across sites</p>
+      <button class="settings-btn" id="settingsBtn" title="Select cookies">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="3"></circle>
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+      <h2>Select Cookies</h2>
+      <div id="cookieList"></div>
+
+      <div class="settings-section">
+        <h3>Options</h3>
+        <div class="cookie-toggle">
+          <span>Auto Refresh after Paste</span>
+          <label class="switch">
+            <input type="checkbox" id="autoRefreshToggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="cookie-toggle" style="border-bottom: none">
+          <span style="font-size: 11px; color: #94a3b8"
+            >Cache:
+            <strong id="cacheSize" style="color: #f8fafc">--</strong></span
+          >
+          <button
+            id="clearCacheBtn"
+            style="
+              background: #dc2626;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              padding: 4px 10px;
+              font-size: 10px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <button class="btn btn-copy" id="copyBtn">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path
+          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
+        ></path>
+      </svg>
+      Copy Cookies
+    </button>
+
+    <button class="btn btn-paste" id="pasteBtn">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+        ></path>
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+      </svg>
+      Paste Cookies
+    </button>
+
+    <button class="btn btn-view" id="viewBtn">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      View Stored Cookies
+    </button>
+
+    <div class="status" id="status"></div>
+
+    <div class="token-box" id="tokenBox">
+      <label>Stored Cookies</label>
+      <div class="token-value" id="tokenValue"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
