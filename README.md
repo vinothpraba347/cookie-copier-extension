@@ -6,6 +6,7 @@ A Chrome extension to copy, paste, and manage browser cookies across websites.
 
 - **Copy & Paste Cookies** — Transfer cookies between different sites with one click
 - **Cookie Selector** — Toggle which cookies to copy using a settings panel (per-site)
+- **Per-Cookie Copy** — Copy icon next to each cookie in the selector copies just that cookie's value to the clipboard
 - **Clipboard Copy** — Copied cookies are also sent to clipboard for easy sharing
 - **Auto Refresh** — Optionally reload the page after pasting cookies
 - **View Stored Cookies** — Inspect currently stored cookie values

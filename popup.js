@@ -19,6 +19,32 @@ function showStatus(message, type) {
   statusEl.className = `status show ${type}`;
 }
 
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+const COPY_ICON_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"></path></svg>';
+const CHECK_ICON_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
 function hideTokenBox() {
   tokenBox.classList.remove("show");
   tokenValue.textContent = "";
@@ -87,15 +113,46 @@ function renderCookieList(cookies, selected) {
   }
 
   const uniqueNames = [...new Set(cookies.map((c) => c.name))].sort();
+  const cookieByName = {};
+  cookies.forEach((c) => {
+    if (!(c.name in cookieByName)) cookieByName[c.name] = c.value;
+  });
 
   uniqueNames.forEach((name) => {
     const isChecked = selected.includes(name);
+    const value = cookieByName[name] || "";
 
     const row = document.createElement("div");
     row.className = "cookie-toggle";
 
     const label = document.createElement("span");
     label.textContent = name;
+
+    const copyBtn = document.createElement("button");
+    copyBtn.className = "copy-icon";
+    copyBtn.type = "button";
+    copyBtn.title = `Copy ${name} value`;
+    copyBtn.setAttribute("aria-label", `Copy ${name} value`);
+    copyBtn.innerHTML = COPY_ICON_SVG;
+    copyBtn.addEventListener("click", () => {
+      if (!value) {
+        showStatus(`⚠️ No value for ${name}.`, "error");
+        return;
+      }
+      copyToClipboard(value)
+        .then(() => {
+          showStatus(`✅ Copied ${name}`, "success");
+          copyBtn.classList.add("copied");
+          copyBtn.innerHTML = CHECK_ICON_SVG;
+          setTimeout(() => {
+            copyBtn.classList.remove("copied");
+            copyBtn.innerHTML = COPY_ICON_SVG;
+          }, 1200);
+        })
+        .catch(() => {
+          showStatus(`❌ Failed to copy ${name}.`, "error");
+        });
+    });
 
     const switchLabel = document.createElement("label");
     switchLabel.className = "switch";
@@ -119,6 +176,7 @@ function renderCookieList(cookies, selected) {
     switchLabel.appendChild(slider);
     row.appendChild(label);
     row.appendChild(switchLabel);
+    row.appendChild(copyBtn);
     cookieList.appendChild(row);
   });
 }
@@ -228,18 +286,7 @@ copyBtn.addEventListener("click", () => {
           showStatus(message, "success");
         });
 
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(clipText).catch(() => {});
-        } else {
-          const textarea = document.createElement("textarea");
-          textarea.value = clipText;
-          textarea.style.position = "fixed";
-          textarea.style.opacity = "0";
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand("copy");
-          document.body.removeChild(textarea);
-        }
+        copyToClipboard(clipText).catch(() => {});
       });
     });
   });

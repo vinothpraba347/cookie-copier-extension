@@ -136,7 +136,45 @@
         font-size: 12px;
         color: #e2e8f0;
         word-break: break-all;
-        padding-right: 10px;
+        padding-right: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .copy-icon {
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #94a3b8;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-left: 6px;
+        transition:
+          color 0.2s,
+          transform 0.1s;
+      }
+
+      .copy-icon:hover {
+        color: #f8fafc;
+      }
+
+      .copy-icon:active {
+        transform: scale(0.9);
+      }
+
+      .copy-icon.copied {
+        color: #4ade80;
+      }
+
+      .copy-icon svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
       }
 
       .switch {
