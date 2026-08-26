@@ -12,7 +12,7 @@ const autoRefreshToggle = document.getElementById("autoRefreshToggle");
 const clearCacheBtn = document.getElementById("clearCacheBtn");
 const cacheSizeEl = document.getElementById("cacheSize");
 
-const DEFAULT_SELECTED_COOKIES = ["access_token"];
+const DEFAULT_SELECTED_COOKIES = [];
 
 function showStatus(message, type) {
   statusEl.innerHTML = message.replace(/\n/g, "<br>");
@@ -21,9 +21,15 @@ function showStatus(message, type) {
 
 function copyToClipboard(text) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    return navigator.clipboard.writeText(text);
+    return navigator.clipboard
+      .writeText(text)
+      .catch(() => execCommandCopy(text));
   }
-  return new Promise((resolve, reject) => {
+  return execCommandCopy(text);
+}
+
+function execCommandCopy(text) {
+  return new Promise((resolve) => {
     try {
       const textarea = document.createElement("textarea");
       textarea.value = text;
@@ -33,10 +39,10 @@ function copyToClipboard(text) {
       textarea.select();
       document.execCommand("copy");
       document.body.removeChild(textarea);
-      resolve();
     } catch (err) {
-      reject(err);
+      /* clipboard API already copied — ignore */
     }
+    resolve();
   });
 }
 
@@ -256,14 +262,11 @@ copyBtn.addEventListener("click", () => {
 
       chrome.cookies.getAll({ url }, (cookies) => {
         const storedCookies = {};
-        const missing = [];
 
         selected.forEach((name) => {
           const match = cookies.find((c) => c.name === name);
           if (match) {
             storedCookies[name] = match.value;
-          } else {
-            missing.push(name);
           }
         });
 
@@ -279,11 +282,7 @@ copyBtn.addEventListener("click", () => {
 
         chrome.storage.local.set({ storedCookies }, () => {
           const copiedNames = Object.keys(storedCookies).join(", ");
-          let message = `✅ Copied: ${copiedNames}`;
-          if (missing.length > 0) {
-            message += `\n⚠️ Not found: ${missing.join(", ")}`;
-          }
-          showStatus(message, "success");
+          showStatus(`✅ Copied: ${copiedNames}`, "success");
         });
 
         copyToClipboard(clipText).catch(() => {});
@@ -381,7 +380,23 @@ viewBtn.addEventListener("click", () => {
       return;
     }
 
-    tokenValue.textContent = buildStoredCookiesText(storedCookies);
+    tokenValue.innerHTML = "";
+    Object.entries(storedCookies).forEach(([name, value]) => {
+      const card = document.createElement("div");
+      card.className = "stored-card";
+
+      const nameEl = document.createElement("div");
+      nameEl.className = "stored-card-name";
+      nameEl.textContent = name;
+
+      const valueEl = document.createElement("div");
+      valueEl.className = "stored-card-value";
+      valueEl.textContent = value;
+
+      card.appendChild(nameEl);
+      card.appendChild(valueEl);
+      tokenValue.appendChild(card);
+    });
     tokenBox.classList.add("show");
   });
 });

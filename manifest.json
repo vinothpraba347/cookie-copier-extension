@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Access Token Copier",
-  "version": "1.0",
-  "description": "Copy and paste access_token cookies across websites.",
+  "name": "TokenHop",
+  "version": "1.1",
+  "description": "Hop cookies & access tokens between sites — copy, paste, and manage with one click.",
   "permissions": ["cookies", "storage", "tabs", "activeTab"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Access Token Copier"
+    "default_title": "TokenHop"
   }
 }

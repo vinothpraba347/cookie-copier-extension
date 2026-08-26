@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Access Token Copier</title>
+    <title>TokenHop</title>
     <style>
       * {
         box-sizing: border-box;
@@ -339,14 +339,56 @@
       }
 
       .token-value {
-        margin-top: 6px;
+        margin-top: 8px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .stored-card {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 10px 12px;
+        transition: border-color 0.15s;
+      }
+
+      .stored-card:hover {
+        border-color: #3b82f6;
+      }
+
+      .stored-card-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: #f8fafc;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        word-break: break-all;
+        margin-bottom: 6px;
+      }
+
+      .stored-card-value {
         font-size: 11px;
-        color: #a5b4fc;
+        color: #94a3b8;
         word-break: break-all;
         font-family: "Courier New", monospace;
-        max-height: 80px;
+        line-height: 1.6;
+        padding: 8px 10px;
+        background: #1e293b;
+        border-radius: 6px;
+        border: 1px solid #334155;
+        max-height: 60px;
         overflow-y: auto;
-        line-height: 1.5;
+      }
+
+      .stored-card-value::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      .stored-card-value::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 2px;
       }
 
       .token-value::-webkit-scrollbar {
@@ -372,8 +414,8 @@
   </head>
   <body>
     <div class="header">
-      <h1>🔑 Access Token Copier</h1>
-      <p>Manage access_token cookies across sites</p>
+      <h1>🔑 TokenHop</h1>
+      <p>Hop cookies & access tokens across sites</p>
       <button class="settings-btn" id="settingsBtn" title="Select cookies">
         <svg
           viewBox="0 0 24 24"
