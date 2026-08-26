@@ -12,13 +12,14 @@
       }
 
       body {
-        width: 300px;
+        width: 320px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #0f172a;
-        color: #e2e8f0;
+        background: #ffffff;
+        color: #111827;
         padding: 20px;
       }
 
+      /* ---------- Header ---------- */
       .header {
         position: relative;
         text-align: center;
@@ -29,13 +30,13 @@
       .header h1 {
         font-size: 15px;
         font-weight: 700;
-        color: #f8fafc;
+        color: #111827;
         letter-spacing: 0.5px;
       }
 
       .header p {
         font-size: 11px;
-        color: #64748b;
+        color: #6b7280;
         margin-top: 4px;
       }
 
@@ -48,7 +49,7 @@
         padding: 0;
         border: none;
         background: transparent;
-        color: #94a3b8;
+        color: #6b7280;
         cursor: pointer;
         transition:
           color 0.2s,
@@ -59,7 +60,8 @@
       }
 
       .settings-btn:hover {
-        color: #f8fafc;
+        color: #2563eb;
+        transform: rotate(45deg);
       }
 
       .settings-btn svg {
@@ -68,11 +70,12 @@
         flex-shrink: 0;
       }
 
+      /* ---------- Settings panel ---------- */
       .settings-panel {
         display: none;
         margin-bottom: 18px;
-        background: #1e293b;
-        border: 1px solid #334155;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
         border-radius: 8px;
         padding: 12px;
       }
@@ -84,38 +87,29 @@
       .settings-panel h2 {
         font-size: 12px;
         font-weight: 700;
-        color: #f8fafc;
+        color: #111827;
         margin-bottom: 10px;
         text-align: center;
       }
 
       .settings-section {
-        margin-top: 6px;
-        padding-top: 6px;
-        border-top: 1px solid #334155;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #e5e7eb;
       }
 
       .settings-section h3 {
         font-size: 10px;
         font-weight: 700;
-        color: #94a3b8;
+        color: #6b7280;
         margin-bottom: 4px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
 
-      .btn-clear {
-        background: #dc2626;
-        color: #fff;
-      }
-
-      .btn-clear:hover {
-        background: #b91c1c;
-      }
-
       .settings-empty {
         font-size: 11px;
-        color: #64748b;
+        color: #6b7280;
         text-align: center;
         font-style: italic;
       }
@@ -124,8 +118,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 5px 0;
-        border-bottom: 1px solid #334155;
+        padding: 6px 0;
+        border-bottom: 1px solid #e5e7eb;
       }
 
       .cookie-toggle:last-child {
@@ -134,7 +128,7 @@
 
       .cookie-toggle span {
         font-size: 12px;
-        color: #e2e8f0;
+        color: #111827;
         word-break: break-all;
         padding-right: 8px;
         flex: 1;
@@ -147,7 +141,7 @@
         padding: 0;
         border: none;
         background: transparent;
-        color: #94a3b8;
+        color: #6b7280;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -160,7 +154,7 @@
       }
 
       .copy-icon:hover {
-        color: #f8fafc;
+        color: #2563eb;
       }
 
       .copy-icon:active {
@@ -168,7 +162,7 @@
       }
 
       .copy-icon.copied {
-        color: #4ade80;
+        color: #059669;
       }
 
       .copy-icon svg {
@@ -198,7 +192,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #475569;
+        background-color: #d1d5db;
         transition: 0.2s;
         border-radius: 20px;
       }
@@ -210,7 +204,7 @@
         width: 14px;
         left: 3px;
         bottom: 3px;
-        background-color: #f8fafc;
+        background-color: #ffffff;
         transition: 0.2s;
         border-radius: 50%;
       }
@@ -225,17 +219,22 @@
 
       .divider {
         border: none;
-        border-top: 1px solid #1e293b;
+        border-top: 1px solid #f3f4f6;
         margin-bottom: 18px;
+      }
+
+      /* ---------- Action buttons ---------- */
+      .action-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
       }
 
       .btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        width: 100%;
-        padding: 11px 16px;
+        gap: 6px;
         border: none;
         border-radius: 8px;
         font-size: 13px;
@@ -243,41 +242,13 @@
         cursor: pointer;
         transition:
           background 0.2s,
-          transform 0.1s,
-          opacity 0.2s;
-        margin-bottom: 10px;
+          transform 0.1s;
         letter-spacing: 0.3px;
+        padding: 12px 14px;
       }
 
       .btn:active {
         transform: scale(0.97);
-      }
-
-      .btn-copy {
-        background: #2563eb;
-        color: #fff;
-      }
-
-      .btn-copy:hover {
-        background: #1d4ed8;
-      }
-
-      .btn-paste {
-        background: #16a34a;
-        color: #fff;
-      }
-
-      .btn-paste:hover {
-        background: #15803d;
-      }
-
-      .btn-view {
-        background: #7c3aed;
-        color: #fff;
-      }
-
-      .btn-view:hover {
-        background: #6d28d9;
       }
 
       .btn svg {
@@ -286,10 +257,42 @@
         flex-shrink: 0;
       }
 
+      .btn-copy {
+        flex: 1;
+        background: #2563eb;
+        color: #ffffff;
+      }
+
+      .btn-copy:hover {
+        background: #1d4ed8;
+      }
+
+      .btn-paste {
+        flex: 1;
+        background: #059669;
+        color: #ffffff;
+      }
+
+      .btn-paste:hover {
+        background: #047857;
+      }
+
+      .btn-view {
+        width: 100%;
+        background: #7c3aed;
+        color: #ffffff;
+        margin-bottom: 10px;
+      }
+
+      .btn-view:hover {
+        background: #6d28d9;
+      }
+
+      /* ---------- Status ---------- */
       .status {
-        margin-top: 6px;
+        margin-top: 8px;
         padding: 10px 12px;
-        border-radius: 7px;
+        border-radius: 8px;
         font-size: 12px;
         line-height: 1.5;
         display: none;
@@ -300,29 +303,30 @@
       }
 
       .status.success {
-        background: #052e16;
-        color: #86efac;
-        border: 1px solid #166534;
+        background: #ecfdf5;
+        color: #059669;
+        border: 1px solid #a7f3d0;
       }
 
       .status.error {
-        background: #2d0a0a;
-        color: #fca5a5;
-        border: 1px solid #7f1d1d;
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
       }
 
       .status.info {
-        background: #1e1b4b;
-        color: #c4b5fd;
-        border: 1px solid #4c1d95;
+        background: #f5f3ff;
+        color: #7c3aed;
+        border: 1px solid #ddd6fe;
       }
 
+      /* ---------- Token box ---------- */
       .token-box {
         margin-top: 10px;
-        background: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 7px;
-        padding: 10px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
         display: none;
       }
 
@@ -333,7 +337,7 @@
       .token-box label {
         font-size: 10px;
         font-weight: 600;
-        color: #64748b;
+        color: #6b7280;
         text-transform: uppercase;
         letter-spacing: 0.8px;
       }
@@ -348,21 +352,21 @@
       }
 
       .stored-card {
-        background: #0f172a;
-        border: 1px solid #334155;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
         border-radius: 8px;
         padding: 10px 12px;
-        transition: border-color 0.15s;
+        transition: border-color 0.2s;
       }
 
       .stored-card:hover {
-        border-color: #3b82f6;
+        border-color: #2563eb;
       }
 
       .stored-card-name {
         font-size: 13px;
         font-weight: 700;
-        color: #f8fafc;
+        color: #111827;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         word-break: break-all;
         margin-bottom: 6px;
@@ -370,14 +374,14 @@
 
       .stored-card-value {
         font-size: 11px;
-        color: #94a3b8;
+        color: #4b5563;
         word-break: break-all;
         font-family: "Courier New", monospace;
         line-height: 1.6;
         padding: 8px 10px;
-        background: #1e293b;
+        background: #f9fafb;
         border-radius: 6px;
-        border: 1px solid #334155;
+        border: 1px solid #e5e7eb;
         max-height: 60px;
         overflow-y: auto;
       }
@@ -387,7 +391,7 @@
       }
 
       .stored-card-value::-webkit-scrollbar-thumb {
-        background: #475569;
+        background: #d1d5db;
         border-radius: 2px;
       }
 
@@ -396,17 +400,17 @@
       }
 
       .token-value::-webkit-scrollbar-track {
-        background: #0f172a;
+        background: #ffffff;
       }
 
       .token-value::-webkit-scrollbar-thumb {
-        background: #475569;
+        background: #d1d5db;
         border-radius: 2px;
       }
 
       .no-token {
         font-size: 11px;
-        color: #64748b;
+        color: #6b7280;
         font-style: italic;
         margin-top: 6px;
       }
@@ -450,9 +454,9 @@
 
       <div class="settings-section">
         <div class="cookie-toggle" style="border-bottom: none">
-          <span style="font-size: 11px; color: #94a3b8"
+          <span style="font-size: 11px; color: #6b7280"
             >Cache:
-            <strong id="cacheSize" style="color: #f8fafc">--</strong></span
+            <strong id="cacheSize" style="color: #111827">--</strong></span
           >
           <button
             id="clearCacheBtn"
@@ -460,8 +464,8 @@
               background: #dc2626;
               color: #fff;
               border: none;
-              border-radius: 5px;
-              padding: 4px 10px;
+              border-radius: 6px;
+              padding: 4px 12px;
               font-size: 10px;
               font-weight: 600;
               cursor: pointer;
@@ -475,40 +479,44 @@
 
     <hr class="divider" />
 
-    <button class="btn btn-copy" id="copyBtn">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-        <path
-          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
-        ></path>
-      </svg>
-      Copy Cookies
-    </button>
+    <!-- Copy & Paste side-by-side -->
+    <div class="action-row">
+      <button class="btn btn-copy" id="copyBtn">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path
+            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
+          ></path>
+        </svg>
+        Copy
+      </button>
 
-    <button class="btn btn-paste" id="pasteBtn">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path
-          d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
-        ></path>
-        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-      </svg>
-      Paste Cookies
-    </button>
+      <button class="btn btn-paste" id="pasteBtn">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+          ></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+        Paste
+      </button>
+    </div>
 
+    <!-- View full-width below -->
     <button class="btn btn-view" id="viewBtn">
       <svg
         viewBox="0 0 24 24"

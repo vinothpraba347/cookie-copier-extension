@@ -367,6 +367,13 @@ pasteBtn.addEventListener("click", () => {
 });
 
 viewBtn.addEventListener("click", () => {
+  /* toggle: if already open, close it */
+  if (tokenBox.classList.contains("show")) {
+    tokenBox.classList.remove("show");
+    tokenValue.innerHTML = "";
+    return;
+  }
+
   statusEl.className = "status";
   statusEl.textContent = "";
 
