@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,12 +11,96 @@
         padding: 0;
       }
 
+      /* ---------- Theme variables ---------- */
+      :root[data-theme="dark"] {
+        --bg: #16161e;
+        --panel: #1e1e28;
+        --panel-border: #2e2e38;
+        --card: #1e1e28;
+        --card-border: #2e2e38;
+        --card-hover-border: #3b82f6;
+        --text: #e4e4e7;
+        --text-heading: #ffffff;
+        --text-meta: #71717a;
+        --text-muted: #a1a1aa;
+        --divider: #2e2e38;
+        --slider-off: #3a3a4e;
+        --slider-on: #2563eb;
+        --slider-knob: #ffffff;
+        --scrollbar: #3a3a4e;
+        --scrollbar-track: #16161e;
+        --copy-icon: #a1a1aa;
+        --copy-icon-hover: #2563eb;
+        --copy-icon-copied: #059669;
+        --clear-btn: #dc2626;
+        --clear-btn-hover: #b91c1c;
+        --success-bg: rgba(5, 150, 105, 0.12);
+        --success-text: #34d399;
+        --success-border: rgba(5, 150, 105, 0.3);
+        --error-bg: rgba(220, 38, 38, 0.12);
+        --error-text: #f87171;
+        --error-border: rgba(220, 38, 38, 0.3);
+        --info-bg: rgba(124, 58, 237, 0.12);
+        --info-text: #a78bfa;
+        --info-border: rgba(124, 58, 237, 0.3);
+        --value-bg: #16161e;
+        --value-border: #2e2e38;
+        --value-text: #a1a1aa;
+        --gear-color: #71717a;
+        --gear-hover: #2563eb;
+        --theme-btn-color: #71717a;
+        --theme-btn-hover: #2563eb;
+      }
+
+      :root[data-theme="light"] {
+        --bg: #ffffff;
+        --panel: #f9fafb;
+        --panel-border: #e5e7eb;
+        --card: #ffffff;
+        --card-border: #e5e7eb;
+        --card-hover-border: #2563eb;
+        --text: #111827;
+        --text-heading: #111827;
+        --text-meta: #6b7280;
+        --text-muted: #6b7280;
+        --divider: #f3f4f6;
+        --slider-off: #d1d5db;
+        --slider-on: #2563eb;
+        --slider-knob: #ffffff;
+        --scrollbar: #d1d5db;
+        --scrollbar-track: #ffffff;
+        --copy-icon: #6b7280;
+        --copy-icon-hover: #2563eb;
+        --copy-icon-copied: #059669;
+        --clear-btn: #dc2626;
+        --clear-btn-hover: #b91c1c;
+        --success-bg: #ecfdf5;
+        --success-text: #059669;
+        --success-border: #a7f3d0;
+        --error-bg: #fef2f2;
+        --error-text: #dc2626;
+        --error-border: #fecaca;
+        --info-bg: #f5f3ff;
+        --info-text: #7c3aed;
+        --info-border: #ddd6fe;
+        --value-bg: #f9fafb;
+        --value-border: #e5e7eb;
+        --value-text: #4b5563;
+        --gear-color: #6b7280;
+        --gear-hover: #2563eb;
+        --theme-btn-color: #6b7280;
+        --theme-btn-hover: #2563eb;
+      }
+
       body {
         width: 320px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #ffffff;
-        color: #111827;
+        background: var(--bg);
+        color: var(--text);
         padding: 20px;
+        transition:
+          background 0.2s,
+          color 0.2s;
       }
 
       /* ---------- Header ---------- */
@@ -24,58 +108,74 @@
         position: relative;
         text-align: center;
         margin-bottom: 20px;
-        padding-right: 28px;
+        padding-right: 56px;
       }
 
       .header h1 {
         font-size: 15px;
         font-weight: 700;
-        color: #111827;
+        color: var(--text-heading);
         letter-spacing: 0.5px;
       }
 
       .header p {
         font-size: 11px;
-        color: #6b7280;
+        color: var(--text-meta);
         margin-top: 4px;
       }
 
-      .settings-btn {
+      .header-actions {
         position: absolute;
         top: 0;
         right: 0;
+        display: flex;
+        gap: 6px;
+      }
+
+      .icon-btn {
         width: 22px;
         height: 22px;
         padding: 0;
         border: none;
         background: transparent;
-        color: #6b7280;
         cursor: pointer;
-        transition:
-          color 0.2s,
-          transform 0.2s;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition:
+          color 0.2s,
+          transform 0.2s;
       }
 
-      .settings-btn:hover {
-        color: #2563eb;
-        transform: rotate(45deg);
-      }
-
-      .settings-btn svg {
+      .icon-btn svg {
         width: 18px;
         height: 18px;
         flex-shrink: 0;
+      }
+
+      .settings-btn {
+        color: var(--gear-color);
+      }
+
+      .settings-btn:hover {
+        color: var(--gear-hover);
+        transform: rotate(45deg);
+      }
+
+      .theme-btn {
+        color: var(--theme-btn-color);
+      }
+
+      .theme-btn:hover {
+        color: var(--theme-btn-hover);
       }
 
       /* ---------- Settings panel ---------- */
       .settings-panel {
         display: none;
         margin-bottom: 18px;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
         border-radius: 8px;
         padding: 12px;
       }
@@ -87,7 +187,7 @@
       .settings-panel h2 {
         font-size: 12px;
         font-weight: 700;
-        color: #111827;
+        color: var(--text-heading);
         margin-bottom: 10px;
         text-align: center;
       }
@@ -95,13 +195,13 @@
       .settings-section {
         margin-top: 8px;
         padding-top: 8px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--panel-border);
       }
 
       .settings-section h3 {
         font-size: 10px;
         font-weight: 700;
-        color: #6b7280;
+        color: var(--text-meta);
         margin-bottom: 4px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -109,7 +209,7 @@
 
       .settings-empty {
         font-size: 11px;
-        color: #6b7280;
+        color: var(--text-meta);
         text-align: center;
         font-style: italic;
       }
@@ -119,7 +219,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 6px 0;
-        border-bottom: 1px solid #e5e7eb;
+        border-bottom: 1px solid var(--panel-border);
       }
 
       .cookie-toggle:last-child {
@@ -128,7 +228,7 @@
 
       .cookie-toggle span {
         font-size: 12px;
-        color: #111827;
+        color: var(--text);
         word-break: break-all;
         padding-right: 8px;
         flex: 1;
@@ -141,7 +241,7 @@
         padding: 0;
         border: none;
         background: transparent;
-        color: #6b7280;
+        color: var(--copy-icon);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -154,7 +254,7 @@
       }
 
       .copy-icon:hover {
-        color: #2563eb;
+        color: var(--copy-icon-hover);
       }
 
       .copy-icon:active {
@@ -162,7 +262,7 @@
       }
 
       .copy-icon.copied {
-        color: #059669;
+        color: var(--copy-icon-copied);
       }
 
       .copy-icon svg {
@@ -192,7 +292,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #d1d5db;
+        background-color: var(--slider-off);
         transition: 0.2s;
         border-radius: 20px;
       }
@@ -204,13 +304,13 @@
         width: 14px;
         left: 3px;
         bottom: 3px;
-        background-color: #ffffff;
+        background-color: var(--slider-knob);
         transition: 0.2s;
         border-radius: 50%;
       }
 
       .switch input:checked + .slider {
-        background-color: #2563eb;
+        background-color: var(--slider-on);
       }
 
       .switch input:checked + .slider:before {
@@ -219,7 +319,7 @@
 
       .divider {
         border: none;
-        border-top: 1px solid #f3f4f6;
+        border-top: 1px solid var(--divider);
         margin-bottom: 18px;
       }
 
@@ -303,28 +403,28 @@
       }
 
       .status.success {
-        background: #ecfdf5;
-        color: #059669;
-        border: 1px solid #a7f3d0;
+        background: var(--success-bg);
+        color: var(--success-text);
+        border: 1px solid var(--success-border);
       }
 
       .status.error {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1px solid #fecaca;
+        background: var(--error-bg);
+        color: var(--error-text);
+        border: 1px solid var(--error-border);
       }
 
       .status.info {
-        background: #f5f3ff;
-        color: #7c3aed;
-        border: 1px solid #ddd6fe;
+        background: var(--info-bg);
+        color: var(--info-text);
+        border: 1px solid var(--info-border);
       }
 
       /* ---------- Token box ---------- */
       .token-box {
         margin-top: 10px;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
         border-radius: 8px;
         padding: 12px;
         display: none;
@@ -337,7 +437,7 @@
       .token-box label {
         font-size: 10px;
         font-weight: 600;
-        color: #6b7280;
+        color: var(--text-meta);
         text-transform: uppercase;
         letter-spacing: 0.8px;
       }
@@ -352,21 +452,21 @@
       }
 
       .stored-card {
-        background: #ffffff;
-        border: 1px solid #e5e7eb;
+        background: var(--card);
+        border: 1px solid var(--card-border);
         border-radius: 8px;
         padding: 10px 12px;
         transition: border-color 0.2s;
       }
 
       .stored-card:hover {
-        border-color: #2563eb;
+        border-color: var(--card-hover-border);
       }
 
       .stored-card-name {
         font-size: 13px;
         font-weight: 700;
-        color: #111827;
+        color: var(--text-heading);
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         word-break: break-all;
         margin-bottom: 6px;
@@ -374,14 +474,14 @@
 
       .stored-card-value {
         font-size: 11px;
-        color: #4b5563;
+        color: var(--value-text);
         word-break: break-all;
         font-family: "Courier New", monospace;
         line-height: 1.6;
         padding: 8px 10px;
-        background: #f9fafb;
+        background: var(--value-bg);
         border-radius: 6px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--value-border);
         max-height: 60px;
         overflow-y: auto;
       }
@@ -391,7 +491,7 @@
       }
 
       .stored-card-value::-webkit-scrollbar-thumb {
-        background: #d1d5db;
+        background: var(--scrollbar);
         border-radius: 2px;
       }
 
@@ -400,17 +500,17 @@
       }
 
       .token-value::-webkit-scrollbar-track {
-        background: #ffffff;
+        background: var(--scrollbar-track);
       }
 
       .token-value::-webkit-scrollbar-thumb {
-        background: #d1d5db;
+        background: var(--scrollbar);
         border-radius: 2px;
       }
 
       .no-token {
         font-size: 11px;
-        color: #6b7280;
+        color: var(--text-meta);
         font-style: italic;
         margin-top: 6px;
       }
@@ -420,21 +520,40 @@
     <div class="header">
       <h1>🔑 TokenHop</h1>
       <p>Hop cookies & access tokens across sites</p>
-      <button class="settings-btn" id="settingsBtn" title="Select cookies">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+      <div class="header-actions">
+        <button class="icon-btn theme-btn" id="themeBtn" title="Toggle theme">
+          <svg
+            id="themeIcon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button
+          class="icon-btn settings-btn"
+          id="settingsBtn"
+          title="Select cookies"
         >
-          <circle cx="12" cy="12" r="3"></circle>
-          <path
-            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
-          ></path>
-        </svg>
-      </button>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+            ></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="settings-panel" id="settingsPanel">
@@ -454,14 +573,16 @@
 
       <div class="settings-section">
         <div class="cookie-toggle" style="border-bottom: none">
-          <span style="font-size: 11px; color: #6b7280"
+          <span style="font-size: 11px; color: var(--text-meta)"
             >Cache:
-            <strong id="cacheSize" style="color: #111827">--</strong></span
+            <strong id="cacheSize" style="color: var(--text-heading)"
+              >--</strong
+            ></span
           >
           <button
             id="clearCacheBtn"
             style="
-              background: #dc2626;
+              background: var(--clear-btn);
               color: #fff;
               border: none;
               border-radius: 6px;
