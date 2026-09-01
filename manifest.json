@@ -5,8 +5,20 @@
   "description": "Hop cookies & access tokens between sites — copy, paste, manage, and debug with one click.",
   "permissions": ["cookies", "storage", "tabs", "activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
+  "icons": {
+    "16": "icon128.png",
+    "32": "icon128.png",
+    "48": "icon128.png",
+    "128": "icon128.png"
+  },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "TokenHop"
+    "default_title": "TokenHop",
+    "default_icon": {
+      "16": "icon128.png",
+      "32": "icon128.png",
+      "48": "icon128.png",
+      "128": "icon128.png"
+    }
   }
 }
