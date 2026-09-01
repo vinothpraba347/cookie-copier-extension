@@ -1,9 +1,16 @@
 {
   "manifest_version": 3,
   "name": "TokenHop",
-  "version": "1.1",
-  "description": "Hop cookies & access tokens between sites — copy, paste, and manage with one click.",
-  "permissions": ["cookies", "storage", "tabs", "activeTab"],
+  "version": "1.2",
+  "description": "Hop cookies & access tokens between sites — copy, paste, manage, and debug with one click.",
+  "permissions": [
+    "cookies",
+    "storage",
+    "tabs",
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",

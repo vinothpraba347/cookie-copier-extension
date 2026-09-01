@@ -50,6 +50,16 @@
         --gear-hover: #2563eb;
         --theme-btn-color: #71717a;
         --theme-btn-hover: #2563eb;
+        --tab-active: #2563eb;
+        --tab-inactive: #71717a;
+        --input-bg: #16161e;
+        --input-border: #2e2e38;
+        --input-text: #e4e4e7;
+        --input-focus: #2563eb;
+        --danger-btn: #dc2626;
+        --danger-btn-hover: #b91c1c;
+        --warning-btn: #d97706;
+        --warning-btn-hover: #b45309;
       }
 
       :root[data-theme="light"] {
@@ -90,14 +100,25 @@
         --gear-hover: #2563eb;
         --theme-btn-color: #6b7280;
         --theme-btn-hover: #2563eb;
+        --tab-active: #2563eb;
+        --tab-inactive: #6b7280;
+        --input-bg: #ffffff;
+        --input-border: #e5e7eb;
+        --input-text: #111827;
+        --input-focus: #2563eb;
+        --danger-btn: #dc2626;
+        --danger-btn-hover: #b91c1c;
+        --warning-btn: #d97706;
+        --warning-btn-hover: #b45309;
       }
 
       body {
-        width: 320px;
+        width: 340px;
+        max-height: 580px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: var(--bg);
         color: var(--text);
-        padding: 20px;
+        padding: 16px;
         transition:
           background 0.2s,
           color 0.2s;
@@ -107,7 +128,7 @@
       .header {
         position: relative;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 8px;
         padding-right: 56px;
       }
 
@@ -121,7 +142,7 @@
       .header p {
         font-size: 11px;
         color: var(--text-meta);
-        margin-top: 4px;
+        margin-top: 3px;
       }
 
       .header-actions {
@@ -170,10 +191,196 @@
         color: var(--theme-btn-hover);
       }
 
+      /* ---------- Tab bar ---------- */
+      .tab-bar {
+        display: flex;
+        border-bottom: 2px solid var(--divider);
+        margin-bottom: 8px;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 8px 4px;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--tab-inactive);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+        user-select: none;
+      }
+
+      .tab:hover {
+        color: var(--text);
+      }
+
+      .tab.active {
+        color: var(--tab-active);
+        border-bottom-color: var(--tab-active);
+      }
+
+      .tab-panel {
+        display: none;
+      }
+
+      .tab-panel.active {
+        display: block;
+      }
+
+      /* ---------- Settings sub-tabs ---------- */
+      .subtab-bar {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 10px;
+        background: var(--bg);
+        border-radius: 8px;
+        padding: 3px;
+      }
+
+      .subtab {
+        flex: 1;
+        padding: 6px 4px;
+        text-align: center;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--tab-inactive);
+        cursor: pointer;
+        border-radius: 6px;
+        transition:
+          color 0.2s,
+          background 0.2s;
+        user-select: none;
+      }
+
+      .subtab:hover {
+        color: var(--text);
+      }
+
+      .subtab.active {
+        color: #ffffff;
+        background: var(--tab-active);
+      }
+
+      .subtab-panel {
+        display: none;
+      }
+
+      .subtab-panel.active {
+        display: block;
+      }
+
+      /* ---------- Buttons ---------- */
+      .action-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: none;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        letter-spacing: 0.3px;
+        padding: 11px 12px;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn svg {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+      }
+
+      .btn-copy {
+        flex: 1;
+        background: #2563eb;
+        color: #ffffff;
+      }
+
+      .btn-copy:hover {
+        background: #1d4ed8;
+      }
+
+      .btn-paste {
+        flex: 1;
+        background: #059669;
+        color: #ffffff;
+      }
+
+      .btn-paste:hover {
+        background: #047857;
+      }
+
+      .btn-view {
+        width: 100%;
+        background: #7c3aed;
+        color: #ffffff;
+        margin-bottom: 10px;
+      }
+
+      .btn-view:hover {
+        background: #6d28d9;
+      }
+
+      .btn-danger {
+        background: var(--danger-btn);
+        color: #ffffff;
+      }
+
+      .btn-danger:hover {
+        background: var(--danger-btn-hover);
+      }
+
+      .btn-warning {
+        background: var(--warning-btn);
+        color: #ffffff;
+      }
+
+      .btn-warning:hover {
+        background: var(--warning-btn-hover);
+      }
+
+      .btn-secondary {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--panel-border);
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--card-hover-border);
+      }
+
+      .btn-full {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      .btn-small {
+        padding: 5px 10px;
+        font-size: 10px;
+        border-radius: 6px;
+      }
+
       /* ---------- Settings panel ---------- */
       .settings-panel {
         display: none;
-        margin-bottom: 18px;
+        margin-bottom: 14px;
         background: var(--panel);
         border: 1px solid var(--panel-border);
         border-radius: 8px;
@@ -207,6 +414,17 @@
         letter-spacing: 0.5px;
       }
 
+      .select-all-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 6px;
+      }
+
+      .select-all-btn {
+        padding: 3px 10px;
+        font-size: 10px;
+      }
+
       .settings-empty {
         font-size: 11px;
         color: var(--text-meta);
@@ -235,6 +453,13 @@
         min-width: 0;
       }
 
+      .cookie-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+
       .copy-icon {
         width: 20px;
         height: 20px;
@@ -247,7 +472,6 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        margin-left: 6px;
         transition:
           color 0.2s,
           transform 0.1s;
@@ -266,6 +490,37 @@
       }
 
       .copy-icon svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+
+      .delete-icon {
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: var(--copy-icon);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition:
+          color 0.2s,
+          transform 0.1s;
+      }
+
+      .delete-icon:hover {
+        color: var(--danger-btn);
+      }
+
+      .delete-icon:active {
+        transform: scale(0.9);
+      }
+
+      .delete-icon svg {
         width: 14px;
         height: 14px;
         flex-shrink: 0;
@@ -320,72 +575,7 @@
       .divider {
         border: none;
         border-top: 1px solid var(--divider);
-        margin-bottom: 18px;
-      }
-
-      /* ---------- Action buttons ---------- */
-      .action-row {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 10px;
-      }
-
-      .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        border: none;
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition:
-          background 0.2s,
-          transform 0.1s;
-        letter-spacing: 0.3px;
-        padding: 12px 14px;
-      }
-
-      .btn:active {
-        transform: scale(0.97);
-      }
-
-      .btn svg {
-        width: 15px;
-        height: 15px;
-        flex-shrink: 0;
-      }
-
-      .btn-copy {
-        flex: 1;
-        background: #2563eb;
-        color: #ffffff;
-      }
-
-      .btn-copy:hover {
-        background: #1d4ed8;
-      }
-
-      .btn-paste {
-        flex: 1;
-        background: #059669;
-        color: #ffffff;
-      }
-
-      .btn-paste:hover {
-        background: #047857;
-      }
-
-      .btn-view {
-        width: 100%;
-        background: #7c3aed;
-        color: #ffffff;
-        margin-bottom: 10px;
-      }
-
-      .btn-view:hover {
-        background: #6d28d9;
+        margin: 12px 0;
       }
 
       /* ---------- Status ---------- */
@@ -396,10 +586,41 @@
         font-size: 12px;
         line-height: 1.5;
         display: none;
+        position: relative;
+        padding-right: 28px;
       }
 
       .status.show {
         display: block;
+      }
+
+      .status-close {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 18px;
+        height: 18px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: currentColor;
+        opacity: 0.6;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: opacity 0.2s;
+      }
+
+      .status-close:hover {
+        opacity: 1;
+      }
+
+      .status-close svg {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
       }
 
       .status.success {
@@ -508,32 +729,179 @@
         border-radius: 2px;
       }
 
+      /* ---------- Section headers ---------- */
+      .section-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        margin-top: 4px;
+      }
+
+      /* ---------- Grid for dev tools ---------- */
+      .grid-2x2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      /* ---------- Inputs ---------- */
+      .text-input {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid var(--input-border);
+        border-radius: 8px;
+        font-size: 12px;
+        background: var(--input-bg);
+        color: var(--input-text);
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .text-input:focus {
+        border-color: var(--input-focus);
+      }
+
+      .text-input::placeholder {
+        color: var(--text-meta);
+      }
+
+      textarea.text-input {
+        resize: vertical;
+        min-height: 60px;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        word-break: break-all;
+      }
+
+      .input-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .input-row .text-input {
+        flex: 1;
+      }
+
+      /* ---------- Profile list ---------- */
+      .profile-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .profile-list::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .profile-list::-webkit-scrollbar-thumb {
+        background: var(--scrollbar);
+        border-radius: 2px;
+      }
+
+      .profile-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 8px;
+      }
+
+      .profile-item-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text);
+        word-break: break-all;
+        flex: 1;
+        min-width: 0;
+        padding-right: 8px;
+      }
+
+      .profile-item-actions {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+
+      .empty-state {
+        font-size: 11px;
+        color: var(--text-meta);
+        text-align: center;
+        font-style: italic;
+        padding: 14px 8px;
+        background: var(--panel);
+        border: 1px dashed var(--panel-border);
+        border-radius: 8px;
+      }
+
+      /* ---------- Inline edit ---------- */
+      .cookie-edit-input {
+        width: 100%;
+        padding: 4px 8px;
+        border: 1px solid var(--input-focus);
+        border-radius: 4px;
+        font-size: 11px;
+        background: var(--input-bg);
+        color: var(--input-text);
+        font-family: "Courier New", monospace;
+        outline: none;
+      }
+
+      /* ---------- Feed Data section ---------- */
+      .feed-section {
+        display: none;
+        margin-top: 10px;
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 8px;
+        padding: 12px;
+      }
+
+      .feed-section.show {
+        display: block;
+      }
+
+      .feed-section textarea {
+        min-height: 80px;
+        font-size: 11px;
+        word-break: break-all;
+      }
+
       .no-token {
         font-size: 11px;
         color: var(--text-meta);
         font-style: italic;
         margin-top: 6px;
       }
+
+      /* ---------- Storage empty state ---------- */
+      .storage-subempty {
+        font-size: 11px;
+        color: var(--text-meta);
+        font-style: italic;
+        padding: 6px 8px;
+      }
     </style>
   </head>
   <body>
+    <!-- Header -->
     <div class="header">
       <h1>🔑 TokenHop</h1>
-      <p>Hop cookies & access tokens across sites</p>
+      <p>Hop cookies & storage across sites</p>
       <div class="header-actions">
-        <button class="icon-btn theme-btn" id="themeBtn" title="Toggle theme">
-          <svg
-            id="themeIcon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
+        <button
+          class="icon-btn theme-btn"
+          id="themeBtn"
+          title="Toggle theme"
+        ></button>
         <button
           class="icon-btn settings-btn"
           id="settingsBtn"
@@ -556,10 +924,23 @@
       </div>
     </div>
 
+    <!-- Settings panel (selectors) -->
     <div class="settings-panel" id="settingsPanel">
-      <h2>Select Cookies</h2>
-      <div id="cookieList"></div>
-
+      <h2>Select Data to Copy</h2>
+      <div class="subtab-bar">
+        <div class="subtab active" data-subtab="cookies">🍪 Cookies</div>
+        <div class="subtab" data-subtab="local">💾 Local</div>
+        <div class="subtab" data-subtab="session">📦 Session</div>
+      </div>
+      <div class="subtab-panel active" id="subtab-cookies">
+        <div id="cookieList"></div>
+      </div>
+      <div class="subtab-panel" id="subtab-local">
+        <div id="lsList"></div>
+      </div>
+      <div class="subtab-panel" id="subtab-session">
+        <div id="ssList"></div>
+      </div>
       <div class="settings-section">
         <h3>Options</h3>
         <div class="cookie-toggle">
@@ -570,7 +951,6 @@
           </label>
         </div>
       </div>
-
       <div class="settings-section">
         <div class="cookie-toggle" style="border-bottom: none">
           <span style="font-size: 11px; color: var(--text-meta)"
@@ -598,11 +978,50 @@
       </div>
     </div>
 
-    <hr class="divider" />
+    <!-- Tab bar -->
+    <div class="tab-bar">
+      <div class="tab active" data-tab="cookies">Cookies</div>
+      <div class="tab" data-tab="devtools">Dev Tools</div>
+      <div class="tab" data-tab="profiles">Profiles</div>
+    </div>
 
-    <!-- Copy & Paste side-by-side -->
-    <div class="action-row">
-      <button class="btn btn-copy" id="copyBtn">
+    <!-- Tab 1: Cookies -->
+    <div class="tab-panel active" id="panel-cookies">
+      <div class="action-row">
+        <button class="btn btn-copy" id="copyBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
+            ></path>
+          </svg>
+          Copy
+        </button>
+        <button class="btn btn-paste" id="pasteBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+            ></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          </svg>
+          Paste
+        </button>
+      </div>
+      <button class="btn btn-view" id="viewBtn">
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -611,50 +1030,245 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path
-            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
-          ></path>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
         </svg>
-        Copy
+        View Stored Data
       </button>
 
-      <button class="btn btn-paste" id="pasteBtn">
+      <input
+        type="file"
+        id="importFileInput"
+        accept=".json"
+        style="display: none"
+      />
+    </div>
+
+    <!-- Tab 2: Dev Tools -->
+    <div class="tab-panel" id="panel-devtools">
+      <div class="section-label">Clear Site Data</div>
+      <div class="grid-2x2">
+        <button class="btn btn-danger" id="clearCookiesBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+            ></path>
+          </svg>
+          Clear Cookies
+        </button>
+        <button class="btn btn-danger" id="clearLocalBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+            ></path>
+          </svg>
+          Clear Local
+        </button>
+        <button class="btn btn-danger" id="clearSessionBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+            ></path>
+          </svg>
+          Clear Session
+        </button>
+        <button class="btn btn-warning" id="nukeBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Nuke All
+        </button>
+      </div>
+
+      <hr class="divider" />
+      <div class="section-label">Export / Import (all site data)</div>
+      <div class="action-row">
+        <button class="btn btn-secondary" id="exportJsonBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Export JSON
+        </button>
+        <button class="btn btn-secondary" id="importJsonBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Import JSON
+        </button>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-secondary" id="copyHeaderBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
+            ></path>
+          </svg>
+          Copy as Header
+        </button>
+        <button class="btn btn-secondary" id="copyCurlBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          Copy as cURL
+        </button>
+      </div>
+
+      <hr class="divider" />
+      <div class="section-label">Share (only selected data)</div>
+      <div class="action-row">
+        <button class="btn btn-secondary" id="copyShareableBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+          Copy Shareable
+        </button>
+        <button class="btn btn-secondary" id="feedDataBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Feed Data
+        </button>
+      </div>
+
+      <!-- Feed Data section (hidden by default) -->
+      <div class="feed-section" id="feedSection">
+        <textarea
+          class="text-input"
+          id="feedInput"
+          placeholder="Paste shared data here (TH1:...)"
+        ></textarea>
+        <div class="action-row" style="margin-top: 8px">
+          <button class="btn btn-copy" id="feedApplyBtn">Apply Data</button>
+          <button class="btn btn-secondary" id="feedCancelBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Profiles -->
+    <div class="tab-panel" id="panel-profiles">
+      <div class="section-label">Save Current Cookies as Profile</div>
+      <div class="input-row">
+        <input
+          type="text"
+          class="text-input"
+          id="profileNameInput"
+          placeholder="Profile name (e.g. Admin, QA User)"
+        />
+        <button
+          class="btn btn-copy btn-small"
+          id="saveProfileBtn"
+          style="flex-shrink: 0"
+        >
+          Save
+        </button>
+      </div>
+      <div class="section-label">Saved Profiles</div>
+      <div class="profile-list" id="profileList"></div>
+    </div>
+
+    <!-- Status (shared across tabs) -->
+    <div class="status" id="status">
+      <button class="status-close" id="statusClose" title="Dismiss">
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
+          stroke-width="2.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path
-            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
-          ></path>
-          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
-        Paste
       </button>
     </div>
 
-    <!-- View full-width below -->
-    <button class="btn btn-view" id="viewBtn">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-      </svg>
-      View Stored Cookies
-    </button>
-
-    <div class="status" id="status"></div>
-
+    <!-- Token box (stored cookies view) -->
     <div class="token-box" id="tokenBox">
       <label>Stored Cookies</label>
       <div class="token-value" id="tokenValue"></div>
