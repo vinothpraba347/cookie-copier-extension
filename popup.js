@@ -1,6 +1,6 @@
 /* ============================================================
    TokenHop — Developer Toolkit
-   Tabs: Cookies | Dev Tools | Profiles
+   Tabs: Cookies | Dev Tools | Session | Profiles
    ============================================================ */
 
 /* ---------- Element refs ---------- */
@@ -36,17 +36,13 @@ const clearLocalBtn = document.getElementById("clearLocalBtn");
 const clearSessionBtn = document.getElementById("clearSessionBtn");
 const nukeBtn = document.getElementById("nukeBtn");
 
-/* Export / Import */
-const exportJsonBtn = document.getElementById("exportJsonBtn");
-const importJsonBtn = document.getElementById("importJsonBtn");
-const importFileInput = document.getElementById("importFileInput");
-const copyHeaderBtn = document.getElementById("copyHeaderBtn");
-const copyCurlBtn = document.getElementById("copyCurlBtn");
-
 /* Profiles */
 const profileNameInput = document.getElementById("profileNameInput");
 const saveProfileBtn = document.getElementById("saveProfileBtn");
 const profileList = document.getElementById("profileList");
+
+/* Session */
+const sessionContent = document.getElementById("sessionContent");
 
 const DEFAULT_SELECTED_COOKIES = [];
 
@@ -93,6 +89,11 @@ document.querySelectorAll(".tab").forEach((tab) => {
       .forEach((p) => p.classList.remove("active"));
     tab.classList.add("active");
     document.getElementById(`panel-${tab.dataset.tab}`).classList.add("active");
+
+    /* Auto-render session tab when opened */
+    if (tab.dataset.tab === "session") {
+      renderSession();
+    }
   });
 });
 
@@ -141,20 +142,24 @@ function copyToClipboard(text) {
 }
 
 function execCommandCopy(text) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     try {
       const textarea = document.createElement("textarea");
       textarea.value = text;
       textarea.style.position = "fixed";
+      textarea.style.left = "0";
+      textarea.style.top = "0";
       textarea.style.opacity = "0";
       document.body.appendChild(textarea);
+      textarea.focus();
       textarea.select();
-      document.execCommand("copy");
+      const ok = document.execCommand("copy");
       document.body.removeChild(textarea);
+      if (ok) resolve();
+      else reject(new Error("execCommand copy returned false"));
     } catch (err) {
-      /* clipboard API already copied — ignore */
+      reject(err);
     }
-    resolve();
   });
 }
 
@@ -674,15 +679,11 @@ function toggleSettingsPanel() {
   }
 }
 
-/* ---------- Clipboard text builders ---------- */
+/* ---------- Clipboard text builder ---------- */
 function buildClipboardText(storedCookies) {
   const entries = Object.entries(storedCookies);
   if (entries.length === 0) return "";
   return entries.map(([name, value]) => `${name}\n${value}`).join("\n\n");
-}
-
-function buildCookieHeader(cookies) {
-  return cookies.map(([name, value]) => `${name}=${value}`).join("; ");
 }
 
 /* ============================================================
@@ -691,6 +692,15 @@ function buildCookieHeader(cookies) {
 
 /* Capture localStorage + sessionStorage from active tab */
 function captureStorage(tab, callback) {
+  if (!chrome.scripting) {
+    console.error("chrome.scripting not available");
+    callback({
+      localStorage: {},
+      sessionStorage: {},
+      _error: "scripting API not available",
+    });
+    return;
+  }
   chrome.scripting.executeScript(
     {
       target: { tabId: tab.id },
@@ -709,8 +719,22 @@ function captureStorage(tab, callback) {
       },
     },
     (results) => {
-      if (chrome.runtime.lastError || !results || !results[0]) {
-        callback({ localStorage: {}, sessionStorage: {} });
+      if (chrome.runtime.lastError) {
+        console.error(
+          "captureStorage error:",
+          chrome.runtime.lastError.message,
+        );
+        callback({
+          localStorage: {},
+          sessionStorage: {},
+          _error: chrome.runtime.lastError.message,
+        });
+      } else if (!results || !results[0]) {
+        callback({
+          localStorage: {},
+          sessionStorage: {},
+          _error: "No results",
+        });
       } else {
         callback(results[0].result || { localStorage: {}, sessionStorage: {} });
       }
@@ -720,6 +744,11 @@ function captureStorage(tab, callback) {
 
 /* Inject localStorage + sessionStorage into active tab */
 function injectStorage(tab, lsData, ssData, callback) {
+  if (!chrome.scripting) {
+    console.error("injectStorage: chrome.scripting not available");
+    callback({ lsCount: 0, ssCount: 0, _error: "scripting API not available" });
+    return;
+  }
   chrome.scripting.executeScript(
     {
       target: { tabId: tab.id },
@@ -743,8 +772,15 @@ function injectStorage(tab, lsData, ssData, callback) {
       args: [lsData || {}, ssData || {}],
     },
     (results) => {
-      if (chrome.runtime.lastError || !results || !results[0]) {
-        callback({ lsCount: 0, ssCount: 0 });
+      if (chrome.runtime.lastError) {
+        console.error("injectStorage error:", chrome.runtime.lastError.message);
+        callback({
+          lsCount: 0,
+          ssCount: 0,
+          _error: chrome.runtime.lastError.message,
+        });
+      } else if (!results || !results[0]) {
+        callback({ lsCount: 0, ssCount: 0, _error: "No results" });
       } else {
         callback(results[0].result || { lsCount: 0, ssCount: 0 });
       }
@@ -783,6 +819,15 @@ copyBtn.addEventListener("click", () => {
             });
 
             captureStorage(tab, (storage) => {
+              /* check if capture failed */
+              if (storage._error) {
+                showStatus(
+                  `⚠️ Cookie copy OK, but storage capture failed: ${storage._error}. Remove & re-add extension to get scripting permission.`,
+                  "error",
+                );
+                return;
+              }
+
               /* filter LS/SS to only selected keys */
               const filteredLS = {};
               selectedLS.forEach((key) => {
@@ -1019,26 +1064,116 @@ viewBtn.addEventListener("click", () => {
 /* ============================================================
    COOKIES TAB — Copy Shareable / Feed Data
    ============================================================ */
-function encodeShareable(data) {
-  const json = JSON.stringify(data);
-  const bytes = new TextEncoder().encode(json);
+/* ---------- Shareable encode/decode (with gzip) ---------- */
+
+function bytesToBase64(bytes) {
   let binary = "";
-  bytes.forEach((b) => {
-    binary += String.fromCharCode(b);
-  });
-  const b64 = btoa(binary);
-  return "TH1:" + b64;
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
 }
 
-function decodeShareable(text) {
-  const trimmed = text.trim();
-  if (!trimmed.startsWith("TH1:")) {
-    throw new Error("Invalid format — must start with TH1:");
-  }
-  const b64 = trimmed.slice(4);
+function base64ToBytes(b64) {
   const binary = atob(b64);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+async function gzipBytes(bytes) {
+  const cs = new CompressionStream("gzip");
+  const writer = cs.writable.getWriter();
+  writer.write(bytes);
+  writer.close();
+  const reader = cs.readable.getReader();
+  const chunks = [];
+  let totalLen = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    totalLen += value.length;
+  }
+  const result = new Uint8Array(totalLen);
+  let offset = 0;
+  chunks.forEach((c) => {
+    result.set(c, offset);
+    offset += c.length;
+  });
+  return result;
+}
+
+async function gunzipBytes(bytes) {
+  const ds = new DecompressionStream("gzip");
+  const writer = ds.writable.getWriter();
+  writer.write(bytes);
+  writer.close();
+  const reader = ds.readable.getReader();
+  const chunks = [];
+  let totalLen = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    totalLen += value.length;
+  }
+  const result = new Uint8Array(totalLen);
+  let offset = 0;
+  chunks.forEach((c) => {
+    result.set(c, offset);
+    offset += c.length;
+  });
+  return result;
+}
+
+async function encodeShareable(data) {
+  const json = JSON.stringify(data);
+  const bytes = new TextEncoder().encode(json);
+
+  /* Try gzip compression if available */
+  if (typeof CompressionStream !== "undefined") {
+    try {
+      const gzipped = await gzipBytes(bytes);
+      const b64 = bytesToBase64(gzipped);
+      /* Only use gzip if it's actually smaller */
+      const uncompressedB64 = bytesToBase64(bytes);
+      if (b64.length < uncompressedB64.length) {
+        return { text: "TH1G:" + b64, size: b64.length + 5 };
+      }
+      return {
+        text: "TH1:" + uncompressedB64,
+        size: uncompressedB64.length + 4,
+      };
+    } catch (e) {
+      /* fall through to uncompressed */
+    }
+  }
+
+  const b64 = bytesToBase64(bytes);
+  return { text: "TH1:" + b64, size: b64.length + 4 };
+}
+
+async function decodeShareable(text) {
+  const trimmed = text.trim();
+  if (!trimmed.startsWith("TH1G:") && !trimmed.startsWith("TH1:")) {
+    throw new Error("Invalid format — must start with TH1: or TH1G:");
+  }
+
+  let bytes;
+  if (trimmed.startsWith("TH1G:")) {
+    const b64 = trimmed.slice(5);
+    const gzBytes = base64ToBytes(b64);
+    if (typeof DecompressionStream === "undefined") {
+      throw new Error("Gzipped data but DecompressionStream not supported");
+    }
+    bytes = await gunzipBytes(gzBytes);
+  } else {
+    const b64 = trimmed.slice(4);
+    bytes = base64ToBytes(b64);
+  }
+
   const json = new TextDecoder().decode(bytes);
   const data = JSON.parse(json);
   if (!data || typeof data !== "object") {
@@ -1053,34 +1188,102 @@ function decodeShareable(text) {
 
 copyShareableBtn.addEventListener("click", () => {
   hideTokenBox();
-  chrome.storage.local.get(["storedData", "storedCookies"], (result) => {
-    const storedData = result.storedData || {
-      cookies: result.storedCookies || {},
-    };
-    const ck = Object.keys(storedData.cookies || {}).length;
-    const lk = Object.keys(storedData.localStorage || {}).length;
-    const sk = Object.keys(storedData.sessionStorage || {}).length;
-
-    if (ck === 0 && lk === 0 && sk === 0) {
-      showStatus("No stored data. Copy from a site first.", "error");
+  getCurrentTab((tab) => {
+    if (!tab || !tab.url) {
+      showStatus("Could not detect the active tab.", "error");
       return;
     }
+    const url = tab.url;
+    loadSelectedCookies((selectedCookies) => {
+      loadSelectedStorage("LS", (selectedLS) => {
+        loadSelectedStorage("SS", (selectedSS) => {
+          if (
+            selectedCookies.length === 0 &&
+            selectedLS.length === 0 &&
+            selectedSS.length === 0
+          ) {
+            showStatus(
+              "Nothing selected. Open settings to select cookies, localStorage, or sessionStorage.",
+              "error",
+            );
+            return;
+          }
 
-    const shareable = encodeShareable(storedData);
-    copyToClipboard(shareable)
-      .then(() => {
-        const parts = [];
-        if (ck > 0) parts.push(`${ck} cookie${ck > 1 ? "s" : ""}`);
-        if (lk > 0) parts.push(`${lk} localStorage`);
-        if (sk > 0) parts.push(`${sk} sessionStorage`);
-        showStatus(
-          `✅ Shareable copied (${parts.join(", ")}) — paste to a teammate`,
-          "success",
-        );
-      })
-      .catch(() => {
-        showStatus("❌ Failed to copy shareable string.", "error");
+          chrome.cookies.getAll({ url }, (cookies) => {
+            const storedCookies = {};
+            selectedCookies.forEach((name) => {
+              const match = cookies.find((c) => c.name === name);
+              if (match) storedCookies[name] = match.value;
+            });
+
+            captureStorage(tab, (storage) => {
+              if (storage._error) {
+                showStatus(
+                  `⚠️ Cookies captured, but storage capture failed: ${storage._error}. Remove & re-add extension.`,
+                  "error",
+                );
+                return;
+              }
+
+              const filteredLS = {};
+              selectedLS.forEach((key) => {
+                if (storage.localStorage[key] !== undefined) {
+                  filteredLS[key] = storage.localStorage[key];
+                }
+              });
+              const filteredSS = {};
+              selectedSS.forEach((key) => {
+                if (storage.sessionStorage[key] !== undefined) {
+                  filteredSS[key] = storage.sessionStorage[key];
+                }
+              });
+
+              const shareData = {
+                cookies: storedCookies,
+                localStorage: filteredLS,
+                sessionStorage: filteredSS,
+              };
+
+              const ck = Object.keys(storedCookies).length;
+              const lk = Object.keys(filteredLS).length;
+              const sk = Object.keys(filteredSS).length;
+
+              if (ck === 0 && lk === 0 && sk === 0) {
+                showStatus(
+                  "No matching data found on this site. Check your selection.",
+                  "error",
+                );
+                return;
+              }
+
+              encodeShareable(shareData).then((shareable) => {
+                copyToClipboard(shareable.text)
+                  .then(() => {
+                    const parts = [];
+                    if (ck > 0) parts.push(`${ck} cookie${ck > 1 ? "s" : ""}`);
+                    if (lk > 0) parts.push(`${lk} localStorage`);
+                    if (sk > 0) parts.push(`${sk} sessionStorage`);
+                    const sizeStr =
+                      shareable.size > 1000
+                        ? `${(shareable.size / 1000).toFixed(1)}K chars`
+                        : `${shareable.size} chars`;
+                    const prefix = shareable.text.startsWith("TH1G:")
+                      ? " (gzipped)"
+                      : "";
+                    showStatus(
+                      `✅ Shareable copied (${parts.join(", ")}) — ${sizeStr}${prefix}`,
+                      "success",
+                    );
+                  })
+                  .catch(() => {
+                    showStatus("❌ Failed to copy shareable string.", "error");
+                  });
+              });
+            });
+          });
+        });
       });
+    });
   });
 });
 
@@ -1096,7 +1299,7 @@ feedCancelBtn.addEventListener("click", () => {
   feedInput.value = "";
 });
 
-feedApplyBtn.addEventListener("click", () => {
+feedApplyBtn.addEventListener("click", async () => {
   const text = feedInput.value.trim();
   if (!text) {
     showStatus("Paste shared data first.", "error");
@@ -1105,7 +1308,7 @@ feedApplyBtn.addEventListener("click", () => {
 
   let data;
   try {
-    data = decodeShareable(text);
+    data = await decodeShareable(text);
   } catch (err) {
     showStatus(`❌ ${err.message}`, "error");
     return;
@@ -1119,6 +1322,13 @@ feedApplyBtn.addEventListener("click", () => {
     showStatus("Shared data is empty.", "error");
     return;
   }
+
+  /* Show what was decoded before applying */
+  const decodedParts = [];
+  if (ck > 0) decodedParts.push(`${ck} cookie${ck > 1 ? "s" : ""}`);
+  if (lk > 0) decodedParts.push(`${lk} localStorage`);
+  if (sk > 0) decodedParts.push(`${sk} sessionStorage`);
+  showStatus(`Decoded: ${decodedParts.join(", ")}. Applying...`, "info");
 
   /* Save as storedData then trigger paste flow */
   chrome.storage.local.set(
@@ -1155,7 +1365,25 @@ feedApplyBtn.addEventListener("click", () => {
                 parts.push(`${counts.lsCount} localStorage`);
               if (counts.ssCount > 0)
                 parts.push(`${counts.ssCount} sessionStorage`);
-              if (cookieFailed > 0) {
+
+              /* Check if inject failed */
+              if (counts._error) {
+                const expectedParts = [];
+                if (storedNames.length > 0)
+                  expectedParts.push(`${cookieDone} cookies`);
+                if (Object.keys(data.localStorage).length > 0)
+                  expectedParts.push(
+                    `${Object.keys(data.localStorage).length} localStorage`,
+                  );
+                if (Object.keys(data.sessionStorage).length > 0)
+                  expectedParts.push(
+                    `${Object.keys(data.sessionStorage).length} sessionStorage`,
+                  );
+                showStatus(
+                  `⚠️ Cookies fed, but storage inject failed: ${counts._error}. Expected: ${expectedParts.join(", ")}. Remove & re-add extension to fix scripting permission.`,
+                  "error",
+                );
+              } else if (cookieFailed > 0) {
                 showStatus(
                   `Fed ${parts.join(", ")}. Failed: ${failedNames.join(", ")}`,
                   "error",
@@ -1196,161 +1424,6 @@ feedApplyBtn.addEventListener("click", () => {
       });
     },
   );
-});
-
-/* ============================================================
-   COOKIES TAB — Export / Import / Copy as Header / Copy as cURL
-   ============================================================ */
-exportJsonBtn.addEventListener("click", () => {
-  getCurrentTab((tab) => {
-    if (!tab || !tab.url) {
-      showStatus("Could not detect the active tab.", "error");
-      return;
-    }
-    chrome.cookies.getAll({ url: tab.url }, (cookies) => {
-      captureStorage(tab, (storage) => {
-        const data = {
-          exportedAt: new Date().toISOString(),
-          domain: getDomainFromUrl(tab.url),
-          cookies: cookies.map((c) => ({
-            name: c.name,
-            value: c.value,
-            domain: c.domain,
-            path: c.path,
-          })),
-          localStorage: storage.localStorage,
-          sessionStorage: storage.sessionStorage,
-        };
-        const blob = new Blob([JSON.stringify(data, null, 2)], {
-          type: "application/json",
-        });
-        const url = URL.createObjectURL(blob);
-        chrome.downloads.download({
-          url: url,
-          filename: `tokenhop_${getDomainFromUrl(tab.url)}.json`,
-          saveAs: true,
-        });
-        const ck = cookies.length;
-        const lk = Object.keys(storage.localStorage).length;
-        const sk = Object.keys(storage.sessionStorage).length;
-        const parts = [];
-        if (ck > 0) parts.push(`${ck} cookies`);
-        if (lk > 0) parts.push(`${lk} localStorage`);
-        if (sk > 0) parts.push(`${sk} sessionStorage`);
-        showStatus(`✅ Exported ${parts.join(", ")}`, "success");
-      });
-    });
-  });
-});
-
-importJsonBtn.addEventListener("click", () => {
-  importFileInput.click();
-});
-
-importFileInput.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    try {
-      const data = JSON.parse(event.target.result);
-      const cookies = data.cookies || (Array.isArray(data) ? data : []);
-      const lsData = data.localStorage || {};
-      const ssData = data.sessionStorage || {};
-      if (
-        !Array.isArray(cookies) &&
-        Object.keys(lsData).length === 0 &&
-        Object.keys(ssData).length === 0
-      ) {
-        throw new Error("Invalid format");
-      }
-      getCurrentTab((tab) => {
-        if (!tab || !tab.url) {
-          showStatus("Could not detect the active tab.", "error");
-          return;
-        }
-        const origin = getOriginFromUrl(tab.url);
-        let completed = 0;
-        let failed = 0;
-
-        function finishCookies() {
-          injectStorage(tab, lsData, ssData, (counts) => {
-            const parts = [];
-            if (cookies.length > 0) parts.push(`${completed} cookies`);
-            if (counts.lsCount > 0)
-              parts.push(`${counts.lsCount} localStorage`);
-            if (counts.ssCount > 0)
-              parts.push(`${counts.ssCount} sessionStorage`);
-            const hasErrors = failed > 0;
-            showStatus(
-              hasErrors
-                ? `Imported ${parts.join(", ")}. Cookie failures: ${failed}`
-                : `✅ Imported ${parts.join(", ")}`,
-              hasErrors ? "error" : "success",
-            );
-          });
-        }
-
-        if (cookies.length === 0) {
-          finishCookies();
-          return;
-        }
-
-        cookies.forEach((c) => {
-          chrome.cookies.set(
-            { url: origin, name: c.name, value: c.value, path: c.path || "/" },
-            (cookie) => {
-              if (chrome.runtime.lastError || !cookie) failed++;
-              else completed++;
-              if (completed + failed === cookies.length) finishCookies();
-            },
-          );
-        });
-      });
-    } catch (err) {
-      showStatus("❌ Invalid JSON file: " + err.message, "error");
-    }
-  };
-  reader.readAsText(file);
-  importFileInput.value = "";
-});
-
-copyHeaderBtn.addEventListener("click", () => {
-  getCurrentTab((tab) => {
-    if (!tab || !tab.url) {
-      showStatus("Could not detect the active tab.", "error");
-      return;
-    }
-    chrome.cookies.getAll({ url: tab.url }, (cookies) => {
-      if (cookies.length === 0) {
-        showStatus("No cookies found on this site.", "error");
-        return;
-      }
-      const header = buildCookieHeader(cookies.map((c) => [c.name, c.value]));
-      copyToClipboard(header).then(() => {
-        showStatus("✅ Copied as Cookie header", "success");
-      });
-    });
-  });
-});
-
-copyCurlBtn.addEventListener("click", () => {
-  getCurrentTab((tab) => {
-    if (!tab || !tab.url) {
-      showStatus("Could not detect the active tab.", "error");
-      return;
-    }
-    chrome.cookies.getAll({ url: tab.url }, (cookies) => {
-      const header =
-        cookies.length > 0
-          ? buildCookieHeader(cookies.map((c) => [c.name, c.value]))
-          : "";
-      const curl = `curl -X GET '${tab.url}'${header ? ` -H 'Cookie: ${header}'` : ""}`;
-      copyToClipboard(curl).then(() => {
-        showStatus("✅ Copied as cURL command", "success");
-      });
-    });
-  });
 });
 
 /* ============================================================
@@ -1628,6 +1701,191 @@ clearCacheBtn.addEventListener("click", () => {
     renderProfiles();
   });
 });
+
+/* ============================================================
+   SESSION TAB — JWT Expiry Timer
+   ============================================================ */
+function decodeJWTPayload(token) {
+  try {
+    const parts = token.split(".");
+    if (parts.length < 2) return null;
+    let payloadB64 = parts[1];
+    /* base64url → base64 */
+    payloadB64 = payloadB64.replace(/-/g, "+").replace(/_/g, "/");
+    /* pad */
+    while (payloadB64.length % 4) payloadB64 += "=";
+    const json = atob(payloadB64);
+    const bytes = new Uint8Array(json.length);
+    for (let i = 0; i < json.length; i++) bytes[i] = json.charCodeAt(i);
+    return JSON.parse(new TextDecoder().decode(bytes));
+  } catch (e) {
+    return null;
+  }
+}
+
+function findJWTs(callback) {
+  getCurrentTab((tab) => {
+    if (!tab || !tab.url) {
+      callback([]);
+      return;
+    }
+    chrome.cookies.getAll({ url: tab.url }, (cookies) => {
+      const jwts = [];
+      cookies.forEach((c) => {
+        const val = c.value || "";
+        if (val.startsWith("eyJ") && val.split(".").length >= 2) {
+          const payload = decodeJWTPayload(val);
+          if (payload && payload.exp) {
+            jwts.push({
+              name: c.name,
+              value: val,
+              exp: payload.exp,
+              source: "cookie",
+              payload,
+            });
+          }
+        }
+      });
+
+      /* Also check localStorage + sessionStorage */
+      captureStorage(tab, (storage) => {
+        Object.entries(storage.localStorage || {}).forEach(([k, v]) => {
+          const val = String(v || "");
+          if (val.startsWith("eyJ") && val.split(".").length >= 2) {
+            const payload = decodeJWTPayload(val);
+            if (payload && payload.exp) {
+              jwts.push({
+                name: k,
+                value: val,
+                exp: payload.exp,
+                source: "localStorage",
+                payload,
+              });
+            }
+          }
+        });
+        Object.entries(storage.sessionStorage || {}).forEach(([k, v]) => {
+          const val = String(v || "");
+          if (val.startsWith("eyJ") && val.split(".").length >= 2) {
+            const payload = decodeJWTPayload(val);
+            if (payload && payload.exp) {
+              jwts.push({
+                name: k,
+                value: val,
+                exp: payload.exp,
+                source: "sessionStorage",
+                payload,
+              });
+            }
+          }
+        });
+        callback(jwts);
+      });
+    });
+  });
+}
+
+function formatCountdown(ms) {
+  if (ms <= 0) return "EXPIRED";
+  const s = Math.floor(ms / 1000);
+  const days = Math.floor(s / 86400);
+  const h = Math.floor((s % 86400) / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (days > 0) return days + "d " + h + "h " + m + "m";
+  if (h > 0) return h + "h " + m + "m " + sec + "s";
+  if (m > 0) return m + "m " + sec + "s";
+  return sec + "s";
+}
+
+let sessionTimerInterval = null;
+
+function renderSession() {
+  findJWTs((jwts) => {
+    if (jwts.length === 0) {
+      sessionContent.innerHTML =
+        '<div class="session-empty">No JWT tokens found in cookies or storage on this page.</div>';
+      return;
+    }
+
+    sessionContent.innerHTML = "";
+    jwts.forEach((jwt) => {
+      const card = document.createElement("div");
+      card.className = "session-card";
+
+      const header = document.createElement("div");
+      header.className = "session-card-header";
+
+      const name = document.createElement("div");
+      name.className = "session-card-name";
+      name.textContent = jwt.name;
+      name.title = jwt.name;
+
+      const source = document.createElement("div");
+      source.className = "session-card-source";
+      source.textContent = jwt.source;
+
+      header.appendChild(name);
+      header.appendChild(source);
+
+      const countdown = document.createElement("div");
+      countdown.className = "session-countdown";
+      countdown.dataset.exp = jwt.exp;
+
+      const meta = document.createElement("div");
+      meta.className = "session-meta";
+
+      const expiryDate = document.createElement("span");
+      expiryDate.textContent =
+        "Expires: " + new Date(jwt.exp * 1000).toLocaleString();
+
+      const issuer = document.createElement("span");
+      if (jwt.payload.iss) issuer.textContent = "Iss: " + jwt.payload.iss;
+      else if (jwt.payload.sub) issuer.textContent = "Sub: " + jwt.payload.sub;
+      else issuer.textContent = "";
+
+      meta.appendChild(expiryDate);
+      meta.appendChild(issuer);
+
+      card.appendChild(header);
+      card.appendChild(countdown);
+      card.appendChild(meta);
+      sessionContent.appendChild(card);
+    });
+
+    /* Start ticking */
+    if (sessionTimerInterval) clearInterval(sessionTimerInterval);
+    updateSessionCountdowns();
+    sessionTimerInterval = setInterval(updateSessionCountdowns, 1000);
+  });
+}
+
+function updateSessionCountdowns() {
+  const now = Date.now();
+  const cards = sessionContent.querySelectorAll(".session-countdown");
+  if (cards.length === 0) {
+    if (sessionTimerInterval) {
+      clearInterval(sessionTimerInterval);
+      sessionTimerInterval = null;
+    }
+    return;
+  }
+  cards.forEach((card) => {
+    const exp = parseInt(card.dataset.exp, 10) * 1000;
+    const remaining = exp - now;
+    card.textContent = formatCountdown(remaining);
+    card.classList.remove("safe", "warning", "danger", "expired");
+    if (remaining <= 0) {
+      card.classList.add("expired");
+    } else if (remaining < 60000) {
+      card.classList.add("danger");
+    } else if (remaining < 600000) {
+      card.classList.add("warning");
+    } else {
+      card.classList.add("safe");
+    }
+  });
+}
 
 /* ============================================================
    Init

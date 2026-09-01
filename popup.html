@@ -889,6 +889,81 @@
         font-style: italic;
         padding: 6px 8px;
       }
+
+      /* ---------- Session Timer ---------- */
+      .session-card {
+        border: 1px solid var(--panel-border);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 8px;
+      }
+
+      .session-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .session-card-name {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-heading);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 140px;
+      }
+
+      .session-card-source {
+        font-size: 9px;
+        color: var(--text-meta);
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 10px;
+        padding: 1px 7px;
+      }
+
+      .session-countdown {
+        font-size: 22px;
+        font-weight: 800;
+        text-align: center;
+        padding: 8px 0;
+        font-family: "Courier New", monospace;
+      }
+
+      .session-countdown.safe {
+        color: #22c55e;
+      }
+
+      .session-countdown.warning {
+        color: #eab308;
+      }
+
+      .session-countdown.danger {
+        color: #ef4444;
+      }
+
+      .session-countdown.expired {
+        color: #ef4444;
+        font-size: 14px;
+      }
+
+      .session-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: var(--text-meta);
+        margin-top: 4px;
+      }
+
+      .session-empty {
+        font-size: 11px;
+        color: var(--text-meta);
+        text-align: center;
+        padding: 20px 8px;
+        font-style: italic;
+      }
     </style>
   </head>
   <body>
@@ -982,6 +1057,7 @@
     <div class="tab-bar">
       <div class="tab active" data-tab="cookies">Cookies</div>
       <div class="tab" data-tab="devtools">Dev Tools</div>
+      <div class="tab" data-tab="session">Session</div>
       <div class="tab" data-tab="profiles">Profiles</div>
     </div>
 
@@ -1035,13 +1111,6 @@
         </svg>
         View Stored Data
       </button>
-
-      <input
-        type="file"
-        id="importFileInput"
-        accept=".json"
-        style="display: none"
-      />
     </div>
 
     <!-- Tab 2: Dev Tools -->
@@ -1114,73 +1183,6 @@
       </div>
 
       <hr class="divider" />
-      <div class="section-label">Export / Import (all site data)</div>
-      <div class="action-row">
-        <button class="btn btn-secondary" id="exportJsonBtn">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Export JSON
-        </button>
-        <button class="btn btn-secondary" id="importJsonBtn">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="17 8 12 3 7 8"></polyline>
-            <line x1="12" y1="3" x2="12" y2="15"></line>
-          </svg>
-          Import JSON
-        </button>
-      </div>
-      <div class="action-row">
-        <button class="btn btn-secondary" id="copyHeaderBtn">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path
-              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 0 2 2v1"
-            ></path>
-          </svg>
-          Copy as Header
-        </button>
-        <button class="btn btn-secondary" id="copyCurlBtn">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-          Copy as cURL
-        </button>
-      </div>
-
-      <hr class="divider" />
       <div class="section-label">Share (only selected data)</div>
       <div class="action-row">
         <button class="btn btn-secondary" id="copyShareableBtn">
@@ -1229,7 +1231,13 @@
       </div>
     </div>
 
-    <!-- Tab 3: Profiles -->
+    <!-- Tab 3: Session -->
+    <div class="tab-panel" id="panel-session">
+      <div class="section-label">Session Expiry Timer</div>
+      <div id="sessionContent"></div>
+    </div>
+
+    <!-- Tab 5: Profiles -->
     <div class="tab-panel" id="panel-profiles">
       <div class="section-label">Save Current Cookies as Profile</div>
       <div class="input-row">
