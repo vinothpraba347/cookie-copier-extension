@@ -53,27 +53,37 @@ const CHECK_ICON_SVG =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 const TRASH_ICON_SVG =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>';
-const MOON_ICON_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-const SUN_ICON_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+const COOKIE_ICON_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9 4 4 0 0 0 4 4 4 4 0 0 0 4 4 1 1 0 0 0 1 1z"></path><circle cx="9" cy="9" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="14" cy="8" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="15" cy="14" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="9" cy="15" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="0.6" fill="currentColor" stroke="none"></circle></svg>';
+const CASINO_ICON_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5.5" stroke-dasharray="2.5 2.5"></circle><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"></circle></svg>';
+const LAB_ICON_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6.5L5 19a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 19l-5-9.5V3"></path><path d="M7.5 14h9"></path></svg>';
 
 /* ---------- Theme ---------- */
+const THEME_CYCLE = ["lab", "casino", "cookie"];
+const THEME_ICON = {
+  lab: LAB_ICON_SVG,
+  casino: CASINO_ICON_SVG,
+  cookie: COOKIE_ICON_SVG,
+};
+
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
-  themeBtn.innerHTML = theme === "dark" ? MOON_ICON_SVG : SUN_ICON_SVG;
+  themeBtn.innerHTML = THEME_ICON[theme] || LAB_ICON_SVG;
 }
 
 function initTheme() {
   chrome.storage.local.get(["theme"], (result) => {
-    const theme = result.theme === "light" ? "light" : "dark";
+    const theme = THEME_CYCLE.includes(result.theme) ? result.theme : "cookie";
     applyTheme(theme);
   });
 }
 
 themeBtn.addEventListener("click", () => {
   const current = document.documentElement.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
+  const idx = THEME_CYCLE.indexOf(current);
+  const next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
   applyTheme(next);
   chrome.storage.local.set({ theme: next });
 });

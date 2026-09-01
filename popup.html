@@ -1,9 +1,15 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="cookie">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TokenHop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         box-sizing: border-box;
@@ -12,110 +18,225 @@
       }
 
       /* ---------- Theme variables ---------- */
-      :root[data-theme="dark"] {
-        --bg: #16161e;
-        --panel: #1e1e28;
-        --panel-border: #2e2e38;
-        --card: #1e1e28;
-        --card-border: #2e2e38;
-        --card-hover-border: #3b82f6;
-        --text: #e4e4e7;
-        --text-heading: #ffffff;
-        --text-meta: #71717a;
-        --text-muted: #a1a1aa;
-        --divider: #2e2e38;
-        --slider-off: #3a3a4e;
-        --slider-on: #2563eb;
-        --slider-knob: #ffffff;
-        --scrollbar: #3a3a4e;
-        --scrollbar-track: #16161e;
-        --copy-icon: #a1a1aa;
-        --copy-icon-hover: #2563eb;
-        --copy-icon-copied: #059669;
-        --clear-btn: #dc2626;
-        --clear-btn-hover: #b91c1c;
-        --success-bg: rgba(5, 150, 105, 0.12);
-        --success-text: #34d399;
-        --success-border: rgba(5, 150, 105, 0.3);
-        --error-bg: rgba(220, 38, 38, 0.12);
-        --error-text: #f87171;
-        --error-border: rgba(220, 38, 38, 0.3);
-        --info-bg: rgba(124, 58, 237, 0.12);
-        --info-text: #a78bfa;
-        --info-border: rgba(124, 58, 237, 0.3);
-        --value-bg: #16161e;
-        --value-border: #2e2e38;
-        --value-text: #a1a1aa;
-        --gear-color: #71717a;
-        --gear-hover: #2563eb;
-        --theme-btn-color: #71717a;
-        --theme-btn-hover: #2563eb;
-        --tab-active: #2563eb;
-        --tab-inactive: #71717a;
-        --input-bg: #16161e;
-        --input-border: #2e2e38;
-        --input-text: #e4e4e7;
-        --input-focus: #2563eb;
-        --danger-btn: #dc2626;
-        --danger-btn-hover: #b91c1c;
-        --warning-btn: #d97706;
-        --warning-btn-hover: #b45309;
+      /* ---------- Cookie theme ----------
+         Warm freshly-baked chocolate-chip cookie aesthetic.
+         Creamy vanilla surfaces, chocolate-brown text, caramel
+         accents, toasted biscuit borders, sea-salt highlights.
+      */
+      :root[data-theme="cookie"] {
+        --bg: #f6ecd7;
+        --panel: #fbf3e0;
+        --panel-border: #e3cfa0;
+        --card: #fbf3e0;
+        --card-border: #e3cfa0;
+        --card-hover-border: #c98a3b;
+        --text: #4a3220;
+        --text-heading: #2e1c0f;
+        --text-meta: #8a6a45;
+        --text-muted: #6f5232;
+        --divider: #e3cfa0;
+        --slider-off: #d8b87a;
+        --slider-on: #c98a3b;
+        --slider-knob: #3a2414;
+        --scrollbar: #c98a3b;
+        --scrollbar-track: #f6ecd7;
+        --copy-icon: #8a6a45;
+        --copy-icon-hover: #c98a3b;
+        --copy-icon-copied: #6b8e23;
+        --clear-btn: #b5482a;
+        --clear-btn-hover: #963a22;
+        --success-bg: rgba(107, 142, 35, 0.14);
+        --success-text: #5a6f1f;
+        --success-border: rgba(107, 142, 35, 0.35);
+        --error-bg: rgba(181, 72, 42, 0.12);
+        --error-text: #963a22;
+        --error-border: rgba(181, 72, 42, 0.35);
+        --info-bg: rgba(201, 138, 59, 0.14);
+        --info-text: #9a6a2a;
+        --info-border: rgba(201, 138, 59, 0.35);
+        --value-bg: #f0e2c4;
+        --value-border: #e3cfa0;
+        --value-text: #6f5232;
+        --gear-color: #8a6a45;
+        --gear-hover: #c98a3b;
+        --theme-btn-color: #8a6a45;
+        --theme-btn-hover: #c98a3b;
+        --tab-active: #c98a3b;
+        --tab-inactive: #8a6a45;
+        --input-bg: #fbf3e0;
+        --input-border: #e3cfa0;
+        --input-text: #2e1c0f;
+        --input-focus: #c98a3b;
+        --danger-btn: #b5482a;
+        --danger-btn-hover: #963a22;
+        --warning-btn: #c98a3b;
+        --warning-btn-hover: #b87a2a;
+
+        /* Cookie-theme-only tokens for decorative CSS */
+        --cookie-chip: #3a2414;
+        --cookie-chip-glossy: #5a3a22;
+        --cookie-caramel: #c98a3b;
+        --cookie-caramel-deep: #b87a2a;
+        --cookie-cream: #fbf3e0;
+        --cookie-toast: #e3cfa0;
+        --cookie-seasalt: #fffdf7;
+        --cookie-shadow: rgba(74, 50, 32, 0.15);
+        --cookie-shadow-soft: rgba(74, 50, 32, 0.08);
+        --cookie-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
       }
 
-      :root[data-theme="light"] {
-        --bg: #ffffff;
-        --panel: #f9fafb;
-        --panel-border: #e5e7eb;
+      /* ---------- Casino theme ----------
+         Premium poker-room / high-stakes casino aesthetic.
+         Dark charcoal surfaces, deep emerald felt, subtle gold
+         accents, premium chip/card styling, elegant glow.
+         Professional developer tool, not a gambling site.
+      */
+      :root[data-theme="casino"] {
+        --bg: #0b0d0c;
+        --panel: #151a17;
+        --panel-border: #222923;
+        --card: #181d1a;
+        --card-border: #222923;
+        --card-hover-border: #d4af37;
+        --text: #f5f3ea;
+        --text-heading: #f5f3ea;
+        --text-meta: #68736c;
+        --text-muted: #9ca69f;
+        --divider: #1d231f;
+        --slider-off: #222923;
+        --slider-on: #0c8b62;
+        --slider-knob: #e6c766;
+        --scrollbar: #0c8b62;
+        --scrollbar-track: #0b0d0c;
+        --copy-icon: #68736c;
+        --copy-icon-hover: #d4af37;
+        --copy-icon-copied: #0c8b62;
+        --clear-btn: #a83232;
+        --clear-btn-hover: #8a2828;
+        --success-bg: rgba(12, 139, 98, 0.14);
+        --success-text: #0c8b62;
+        --success-border: rgba(12, 139, 98, 0.4);
+        --error-bg: rgba(168, 50, 50, 0.14);
+        --error-text: #c85050;
+        --error-border: rgba(168, 50, 50, 0.4);
+        --info-bg: rgba(212, 175, 55, 0.12);
+        --info-text: #e6c766;
+        --info-border: rgba(212, 175, 55, 0.35);
+        --value-bg: #111512;
+        --value-border: #222923;
+        --value-text: #9ca69f;
+        --gear-color: #68736c;
+        --gear-hover: #d4af37;
+        --theme-btn-color: #68736c;
+        --theme-btn-hover: #d4af37;
+        --tab-active: #d4af37;
+        --tab-inactive: #68736c;
+        --input-bg: #111512;
+        --input-border: #222923;
+        --input-text: #f5f3ea;
+        --input-focus: #d4af37;
+        --danger-btn: #a83232;
+        --danger-btn-hover: #8a2828;
+        --warning-btn: #a83232;
+        --warning-btn-hover: #8a2828;
+
+        /* Casino-theme-only tokens for decorative CSS */
+        --casino-emerald: #0f6b4f;
+        --casino-emerald-bright: #0c8b62;
+        --casino-gold: #d4af37;
+        --casino-gold-soft: #e6c766;
+        --casino-charcoal: #0b0d0c;
+        --casino-surface: #181d1a;
+        --casino-surface-2: #1d231f;
+        --casino-border: #222923;
+        --casino-text: #f5f3ea;
+        --casino-text-muted: #9ca69f;
+        --casino-red: #a83232;
+        --casino-glow-emerald: rgba(12, 139, 98, 0.35);
+        --casino-glow-gold: rgba(212, 175, 55, 0.28);
+        --casino-shadow: rgba(0, 0, 0, 0.5);
+        --casino-shadow-soft: rgba(0, 0, 0, 0.3);
+        --casino-felt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.04'/%3E%3C/svg%3E");
+      }
+
+      /* ---------- Lab theme ----------
+         Premium digital laboratory / web session lab aesthetic.
+         Light, cool off-white surfaces, white instrument panels,
+         scientific blue accents, precise technical typography.
+         Calm, precise, technical — a precision instrument.
+      */
+      :root[data-theme="lab"] {
+        --bg: #f5f7f8;
+        --panel: #ffffff;
+        --panel-border: #d9e0e4;
         --card: #ffffff;
-        --card-border: #e5e7eb;
-        --card-hover-border: #2563eb;
-        --text: #111827;
-        --text-heading: #111827;
-        --text-meta: #6b7280;
-        --text-muted: #6b7280;
-        --divider: #f3f4f6;
-        --slider-off: #d1d5db;
-        --slider-on: #2563eb;
+        --card-border: #d9e0e4;
+        --card-hover-border: #1677ff;
+        --text: #182126;
+        --text-heading: #182126;
+        --text-meta: #66737a;
+        --text-muted: #8b969c;
+        --divider: #eef1f3;
+        --slider-off: #d9e0e4;
+        --slider-on: #1677ff;
         --slider-knob: #ffffff;
-        --scrollbar: #d1d5db;
-        --scrollbar-track: #ffffff;
-        --copy-icon: #6b7280;
-        --copy-icon-hover: #2563eb;
-        --copy-icon-copied: #059669;
-        --clear-btn: #dc2626;
-        --clear-btn-hover: #b91c1c;
-        --success-bg: #ecfdf5;
-        --success-text: #059669;
-        --success-border: #a7f3d0;
-        --error-bg: #fef2f2;
-        --error-text: #dc2626;
-        --error-border: #fecaca;
-        --info-bg: #f5f3ff;
-        --info-text: #7c3aed;
-        --info-border: #ddd6fe;
-        --value-bg: #f9fafb;
-        --value-border: #e5e7eb;
-        --value-text: #4b5563;
-        --gear-color: #6b7280;
-        --gear-hover: #2563eb;
-        --theme-btn-color: #6b7280;
-        --theme-btn-hover: #2563eb;
-        --tab-active: #2563eb;
-        --tab-inactive: #6b7280;
+        --scrollbar: #b8c4ca;
+        --scrollbar-track: #f5f7f8;
+        --copy-icon: #66737a;
+        --copy-icon-hover: #1677ff;
+        --copy-icon-copied: #0f9d72;
+        --clear-btn: #d64545;
+        --clear-btn-hover: #b83838;
+        --success-bg: rgba(15, 157, 114, 0.1);
+        --success-text: #0f9d72;
+        --success-border: rgba(15, 157, 114, 0.3);
+        --error-bg: rgba(214, 69, 69, 0.08);
+        --error-text: #d64545;
+        --error-border: rgba(214, 69, 69, 0.3);
+        --info-bg: rgba(22, 119, 255, 0.08);
+        --info-text: #1677ff;
+        --info-border: rgba(22, 119, 255, 0.3);
+        --value-bg: #f8fafb;
+        --value-border: #d9e0e4;
+        --value-text: #66737a;
+        --gear-color: #66737a;
+        --gear-hover: #1677ff;
+        --theme-btn-color: #66737a;
+        --theme-btn-hover: #1677ff;
+        --tab-active: #1677ff;
+        --tab-inactive: #8b969c;
         --input-bg: #ffffff;
-        --input-border: #e5e7eb;
-        --input-text: #111827;
-        --input-focus: #2563eb;
-        --danger-btn: #dc2626;
-        --danger-btn-hover: #b91c1c;
-        --warning-btn: #d97706;
-        --warning-btn-hover: #b45309;
+        --input-border: #d9e0e4;
+        --input-text: #182126;
+        --input-focus: #1677ff;
+        --danger-btn: #d64545;
+        --danger-btn-hover: #b83838;
+        --warning-btn: #d99000;
+        --warning-btn-hover: #b87d00;
+
+        /* Lab-theme-only tokens for decorative CSS */
+        --lab-blue: #1677ff;
+        --lab-blue-deep: #2563eb;
+        --lab-cyan: #06b6d4;
+        --lab-success: #0f9d72;
+        --lab-warning: #d99000;
+        --lab-danger: #d64545;
+        --lab-bg: #f5f7f8;
+        --lab-surface: #ffffff;
+        --lab-surface-2: #f8fafb;
+        --lab-border: #d9e0e4;
+        --lab-text: #182126;
+        --lab-text-muted: #66737a;
+        --lab-shadow: rgba(24, 33, 38, 0.06);
+        --lab-shadow-soft: rgba(24, 33, 38, 0.03);
+        --lab-glow: rgba(22, 119, 255, 0.12);
+        --lab-hover-tint: #f4f8ff;
       }
 
       body {
         width: 340px;
         max-height: 580px;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Nunito", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: var(--bg);
         color: var(--text);
         padding: 16px;
@@ -688,7 +809,7 @@
         font-size: 13px;
         font-weight: 700;
         color: var(--text-heading);
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Nunito", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         word-break: break-all;
         margin-bottom: 6px;
       }
@@ -963,6 +1084,794 @@
         text-align: center;
         padding: 20px 8px;
         font-style: italic;
+      }
+
+      /* ============================================================
+         Cookie theme — decorative layer
+         Scoped under [data-theme="cookie"] so dark/light stay clean.
+         Translates a freshly baked chocolate-chip cookie into UI:
+         pill buttons (chocolate chips / caramel), grainy toasted
+         cards, chocolate-chip toggle knobs, chip-dot dividers,
+         caramel focus rings, soft warm shadows.
+      ============================================================ */
+
+      /* Creamy background with a faint grain like cookie surface */
+      [data-theme="cookie"] body {
+        background-image: var(--cookie-grain);
+        background-size: 180px 180px;
+        background-repeat: repeat;
+      }
+
+      /* Headings get a warmer, handcrafted weight */
+      [data-theme="cookie"] .header {
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--cookie-toast);
+        margin-bottom: 10px;
+      }
+      [data-theme="cookie"] .header h1 {
+        font-weight: 800;
+        letter-spacing: 0.3px;
+      }
+
+      /* ---- Pill buttons (chocolate chips / caramel) ---- */
+      [data-theme="cookie"] .btn {
+        border-radius: 999px;
+        box-shadow: 0 2px 6px var(--cookie-shadow);
+        transition:
+          background 0.18s,
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      [data-theme="cookie"] .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px var(--cookie-shadow);
+      }
+
+      [data-theme="cookie"] .btn:active {
+        transform: translateY(0) scale(0.97);
+        box-shadow: 0 1px 3px var(--cookie-shadow);
+      }
+
+      /* Copy = dark chocolate chip with golden caramel hover */
+      [data-theme="cookie"] .btn-copy {
+        background: var(--cookie-chip);
+        color: var(--cookie-seasalt);
+      }
+      [data-theme="cookie"] .btn-copy:hover {
+        background: var(--cookie-chip-glossy);
+      }
+
+      /* Paste = caramel */
+      [data-theme="cookie"] .btn-paste {
+        background: var(--cookie-caramel);
+        color: var(--cookie-seasalt);
+      }
+      [data-theme="cookie"] .btn-paste:hover {
+        background: var(--cookie-caramel-deep);
+      }
+
+      /* View = milk chocolate */
+      [data-theme="cookie"] .btn-view {
+        background: var(--cookie-chip-glossy);
+        color: var(--cookie-seasalt);
+      }
+      [data-theme="cookie"] .btn-view:hover {
+        background: var(--cookie-chip);
+      }
+
+      /* Secondary = cream cookie piece with toasted edge */
+      [data-theme="cookie"] .btn-secondary {
+        background: var(--cookie-cream);
+        color: var(--text-heading);
+        border: 1px solid var(--cookie-toast);
+      }
+      [data-theme="cookie"] .btn-secondary:hover {
+        border-color: var(--cookie-caramel);
+        color: var(--cookie-caramel-deep);
+      }
+
+      /* Small buttons stay pill but a touch tighter */
+      [data-theme="cookie"] .btn-small {
+        border-radius: 999px;
+      }
+
+      /* ---- Cards: fresh cookie pieces ----
+         Rounded, toasted edge, soft warm shadow, faint grain. */
+      [data-theme="cookie"] .stored-card,
+      [data-theme="cookie"] .profile-item,
+      [data-theme="cookie"] .session-card,
+      [data-theme="cookie"] .settings-panel,
+      [data-theme="cookie"] .token-box,
+      [data-theme="cookie"] .feed-section,
+      [data-theme="cookie"] .empty-state {
+        border-radius: 14px;
+        box-shadow: 0 2px 8px var(--cookie-shadow-soft);
+        background-image: var(--cookie-grain);
+        background-size: 160px 160px;
+        background-repeat: repeat;
+      }
+
+      [data-theme="cookie"] .stored-card:hover,
+      [data-theme="cookie"] .profile-item:hover {
+        border-color: var(--cookie-caramel);
+        box-shadow: 0 3px 12px var(--cookie-shadow);
+      }
+
+      /* Token value well = darker cream, toasted rim */
+      [data-theme="cookie"] .stored-card-value {
+        border-radius: 10px;
+      }
+
+      /* ---- Chocolate-chip toggle knobs ---- */
+      [data-theme="cookie"] .slider {
+        border-radius: 999px;
+      }
+      [data-theme="cookie"] .slider:before {
+        background-color: var(--cookie-chip);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+      }
+      [data-theme="cookie"] .switch input:checked + .slider {
+        background-color: var(--cookie-caramel);
+      }
+
+      /* ---- Chip-dot dividers (scattered chips) ---- */
+      [data-theme="cookie"] .divider {
+        border: none;
+        height: 6px;
+        background-image: radial-gradient(
+          circle,
+          var(--cookie-chip) 1px,
+          transparent 1.6px
+        );
+        background-size: 14px 6px;
+        background-repeat: repeat-x;
+        background-position: center;
+        margin: 14px 0;
+      }
+
+      /* ---- Caramel focus rings ---- */
+      [data-theme="cookie"] .text-input:focus {
+        border-color: var(--cookie-caramel);
+        box-shadow: 0 0 0 3px rgba(201, 138, 59, 0.25);
+      }
+      [data-theme="cookie"] .cookie-edit-input {
+        border-radius: 8px;
+      }
+
+      /* ---- Tabs: caramel underline, softer pill subtabs ---- */
+      [data-theme="cookie"] .tab.active {
+        color: var(--cookie-caramel-deep);
+        border-bottom-color: var(--cookie-caramel);
+      }
+      [data-theme="cookie"] .subtab-bar {
+        background: var(--bg);
+        border: 1px solid var(--cookie-toast);
+        border-radius: 999px;
+      }
+      [data-theme="cookie"] .subtab {
+        border-radius: 999px;
+      }
+      [data-theme="cookie"] .subtab.active {
+        color: var(--cookie-seasalt);
+        background: var(--cookie-caramel);
+      }
+
+      /* ---- Status banners: warm toasted tones ---- */
+      [data-theme="cookie"] .status {
+        border-radius: 12px;
+      }
+
+      /* ---- Inputs: cream with toasted border ---- */
+      [data-theme="cookie"] .text-input {
+        border-radius: 10px;
+      }
+
+      /* ---- Header icon buttons: caramel hover ---- */
+      [data-theme="cookie"] .icon-btn {
+        border-radius: 999px;
+      }
+
+      /* ---- Session countdown keeps semantic colors but warmer ---- */
+      [data-theme="cookie"] .session-countdown.safe {
+        color: #6b8e23;
+      }
+      [data-theme="cookie"] .session-countdown.warning {
+        color: #c98a3b;
+      }
+      [data-theme="cookie"] .session-countdown.danger,
+      [data-theme="cookie"] .session-countdown.expired {
+        color: #b5482a;
+      }
+
+      /* ---- Scrollbars: caramel on cream ---- */
+      [data-theme="cookie"] ::-webkit-scrollbar-thumb {
+        background: var(--cookie-caramel);
+        border-radius: 999px;
+      }
+
+      /* ============================================================
+         Casino theme — decorative layer
+         Scoped under [data-theme="casino"] so other themes stay
+         clean. Premium poker-room: dark felt background, thin
+         gold/emerald borders, chip-style buttons & toggles,
+         gold countdown glow, casino tabs, refined micro-motion.
+      ============================================================ */
+
+      /* Felt-table background: very dark green/black + subtle noise */
+      [data-theme="casino"] body {
+        background-image: var(--casino-felt);
+        background-size: 200px 200px;
+        background-repeat: repeat;
+      }
+
+      /* ---- Header: premium poker-room with gold divider ---- */
+      [data-theme="casino"] .header {
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--casino-gold);
+        margin-bottom: 10px;
+      }
+      [data-theme="casino"] .header h1 {
+        font-weight: 800;
+        letter-spacing: 0.6px;
+        color: var(--casino-text);
+      }
+      [data-theme="casino"] .header p {
+        color: var(--casino-text-muted);
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        font-size: 9px;
+        font-weight: 700;
+      }
+
+      /* ---- Buttons: premium chips/cards ---- */
+      [data-theme="casino"] .btn {
+        border-radius: 10px;
+        box-shadow:
+          0 2px 6px var(--casino-shadow),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        transition:
+          background 0.18s,
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      [data-theme="casino"] .btn:hover {
+        transform: translateY(-1px);
+        box-shadow:
+          0 4px 10px var(--casino-shadow),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      [data-theme="casino"] .btn:active {
+        transform: translateY(0) scale(0.98);
+        box-shadow: 0 1px 3px var(--casino-shadow);
+      }
+
+      /* Copy = emerald primary */
+      [data-theme="casino"] .btn-copy {
+        background: var(--casino-emerald-bright);
+        color: var(--casino-text);
+        box-shadow:
+          0 2px 8px var(--casino-glow-emerald),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      [data-theme="casino"] .btn-copy:hover {
+        background: var(--casino-emerald);
+      }
+
+      /* Paste = darker emerald */
+      [data-theme="casino"] .btn-paste {
+        background: var(--casino-emerald);
+        color: var(--casino-text);
+      }
+      [data-theme="casino"] .btn-paste:hover {
+        background: #0b5a42;
+      }
+
+      /* View = dark surface with gold border */
+      [data-theme="casino"] .btn-view {
+        background: var(--casino-surface);
+        color: var(--casino-gold-soft);
+        border: 1px solid var(--casino-gold);
+        box-shadow:
+          0 2px 8px var(--casino-glow-gold),
+          inset 0 1px 0 rgba(212, 175, 55, 0.08);
+      }
+      [data-theme="casino"] .btn-view:hover {
+        background: var(--casino-surface-2);
+        border-color: var(--casino-gold-soft);
+      }
+
+      /* Secondary = charcoal card */
+      [data-theme="casino"] .btn-secondary {
+        background: var(--casino-surface-2);
+        color: var(--casino-text);
+        border: 1px solid var(--casino-border);
+      }
+      [data-theme="casino"] .btn-secondary:hover {
+        border-color: var(--casino-gold);
+        color: var(--casino-gold-soft);
+      }
+
+      [data-theme="casino"] .btn-small {
+        border-radius: 8px;
+      }
+
+      /* ---- Cards/panels: dark layered surfaces w/ gold borders ---- */
+      [data-theme="casino"] .stored-card,
+      [data-theme="casino"] .profile-item,
+      [data-theme="casino"] .session-card,
+      [data-theme="casino"] .settings-panel,
+      [data-theme="casino"] .token-box,
+      [data-theme="casino"] .feed-section,
+      [data-theme="casino"] .empty-state {
+        border-radius: 12px;
+        background-image: var(--casino-felt);
+        background-size: 180px 180px;
+        background-repeat: repeat;
+        box-shadow:
+          0 2px 8px var(--casino-shadow-soft),
+          inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      [data-theme="casino"] .stored-card:hover,
+      [data-theme="casino"] .profile-item:hover {
+        border-color: var(--casino-gold);
+        box-shadow:
+          0 4px 12px var(--casino-shadow),
+          0 0 0 1px var(--casino-glow-gold),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      [data-theme="casino"] .stored-card-name {
+        color: var(--casino-text);
+      }
+      [data-theme="casino"] .stored-card-value {
+        border-radius: 8px;
+        background: var(--casino-charcoal);
+      }
+
+      /* ---- Toggles: premium chip style ---- */
+      [data-theme="casino"] .slider {
+        border-radius: 999px;
+        border: 1px solid var(--casino-border);
+      }
+      [data-theme="casino"] .slider:before {
+        background-color: var(--casino-gold);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      }
+      [data-theme="casino"] .switch input:checked + .slider {
+        background-color: var(--casino-emerald-bright);
+        border-color: var(--casino-emerald-bright);
+      }
+      [data-theme="casino"] .switch input:checked + .slider:before {
+        background-color: var(--casino-gold-soft);
+      }
+
+      /* ---- Tabs: casino tabs with gold active indicator ---- */
+      [data-theme="casino"] .tab-bar {
+        border-bottom: 1px solid var(--casino-border);
+      }
+      [data-theme="casino"] .tab {
+        letter-spacing: 0.4px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.18s,
+          border-color 0.18s;
+      }
+      [data-theme="casino"] .tab:hover {
+        color: var(--casino-text);
+      }
+      [data-theme="casino"] .tab.active {
+        color: var(--casino-gold);
+        border-bottom-color: var(--casino-gold);
+      }
+
+      /* Subtabs: emerald active */
+      [data-theme="casino"] .subtab-bar {
+        background: var(--casino-charcoal);
+        border: 1px solid var(--casino-border);
+        border-radius: 10px;
+      }
+      [data-theme="casino"] .subtab {
+        border-radius: 8px;
+        letter-spacing: 0.4px;
+      }
+      [data-theme="casino"] .subtab:hover {
+        color: var(--casino-text);
+      }
+      [data-theme="casino"] .subtab.active {
+        color: var(--casino-text);
+        background: var(--casino-emerald-bright);
+      }
+
+      /* ---- Inputs: charcoal with gold focus ---- */
+      [data-theme="casino"] .text-input {
+        border-radius: 8px;
+        background: var(--casino-charcoal);
+      }
+      [data-theme="casino"] .text-input:focus {
+        border-color: var(--casino-gold);
+        box-shadow: 0 0 0 2px var(--casino-glow-gold);
+      }
+      [data-theme="casino"] .cookie-edit-input {
+        border-radius: 6px;
+        background: var(--casino-charcoal);
+      }
+
+      /* ---- Dividers: thin emerald line ---- */
+      [data-theme="casino"] .divider {
+        border-top: 1px solid var(--casino-border);
+      }
+
+      /* ---- Section labels: gold uppercase ---- */
+      [data-theme="casino"] .section-label {
+        color: var(--casino-gold-soft);
+        letter-spacing: 1px;
+      }
+      [data-theme="casino"] .settings-panel h2,
+      [data-theme="casino"] .settings-section h3 {
+        color: var(--casino-gold-soft);
+      }
+
+      /* ---- Status banners ---- */
+      [data-theme="casino"] .status {
+        border-radius: 10px;
+      }
+
+      /* ---- Session countdown: gold digital glow ---- */
+      [data-theme="casino"] .session-card {
+        border: 1px solid var(--casino-border);
+      }
+      [data-theme="casino"] .session-card-name {
+        color: var(--casino-text);
+      }
+      [data-theme="casino"] .session-card-source {
+        background: var(--casino-charcoal);
+        border: 1px solid var(--casino-border);
+        color: var(--casino-gold-soft);
+      }
+      [data-theme="casino"] .session-countdown {
+        color: var(--casino-gold);
+        letter-spacing: 2px;
+      }
+      [data-theme="casino"] .session-countdown.safe {
+        color: var(--casino-emerald-bright);
+      }
+      [data-theme="casino"] .session-countdown.warning {
+        color: var(--casino-gold);
+      }
+      [data-theme="casino"] .session-countdown.danger,
+      [data-theme="casino"] .session-countdown.expired {
+        color: #c85050;
+      }
+      [data-theme="casino"] .session-meta {
+        color: var(--casino-text-muted);
+      }
+      [data-theme="casino"] .session-empty {
+        color: var(--casino-text-muted);
+      }
+
+      /* ---- Empty states: intentional, suit-mark feel ---- */
+      [data-theme="casino"] .empty-state,
+      [data-theme="casino"] .settings-empty,
+      [data-theme="casino"] .storage-subempty,
+      [data-theme="casino"] .no-token {
+        color: var(--casino-text-muted);
+        border: 1px dashed var(--casino-border);
+      }
+
+      /* ---- Icon buttons: gold hover ---- */
+      [data-theme="casino"] .icon-btn {
+        border-radius: 8px;
+      }
+      [data-theme="casino"] .copy-icon:hover,
+      [data-theme="casino"] .delete-icon:hover {
+        color: var(--casino-gold);
+      }
+
+      /* ---- Scrollbars: thin dark track, emerald/gold thumb ---- */
+      [data-theme="casino"] ::-webkit-scrollbar {
+        width: 4px;
+      }
+      [data-theme="casino"] ::-webkit-scrollbar-track {
+        background: var(--casino-charcoal);
+      }
+      [data-theme="casino"] ::-webkit-scrollbar-thumb {
+        background: var(--casino-emerald-bright);
+        border-radius: 999px;
+      }
+      [data-theme="casino"] ::-webkit-scrollbar-thumb:hover {
+        background: var(--casino-gold);
+      }
+
+      /* ============================================================
+         Lab theme — decorative layer
+         Scoped under [data-theme="lab"]. Premium digital laboratory
+         / web session lab. Cool off-white, white instrument panels,
+         scientific blue accents, precise technical typography.
+         Calm, precise, technical — a precision instrument.
+      ============================================================ */
+
+      /* ---- Header: instrument-style with blue divider ---- */
+      [data-theme="lab"] .header {
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--lab-border);
+      }
+      [data-theme="lab"] .header h1 {
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        color: var(--lab-text);
+      }
+      [data-theme="lab"] .header p {
+        font-size: 9px;
+        color: var(--lab-text-muted);
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-top: 2px;
+      }
+
+      /* ---- Buttons: clean instrument controls ---- */
+      [data-theme="lab"] .btn {
+        border-radius: 8px;
+        border: 1px solid transparent;
+        box-shadow: 0 1px 3px var(--lab-shadow-soft);
+        transition:
+          background 0.16s,
+          transform 0.16s,
+          box-shadow 0.16s,
+          border-color 0.16s;
+      }
+      [data-theme="lab"] .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px var(--lab-shadow);
+      }
+      [data-theme="lab"] .btn:active {
+        transform: translateY(0) scale(0.98);
+        box-shadow: 0 1px 2px var(--lab-shadow-soft);
+      }
+
+      /* Copy = scientific blue primary */
+      [data-theme="lab"] .btn-copy {
+        background: var(--lab-blue);
+        color: #ffffff;
+        border-color: var(--lab-blue-deep);
+      }
+      [data-theme="lab"] .btn-copy:hover {
+        background: var(--lab-blue-deep);
+      }
+
+      /* Paste = dark neutral with blue outline */
+      [data-theme="lab"] .btn-paste {
+        background: var(--lab-surface);
+        color: var(--lab-text);
+        border: 1px solid var(--lab-border);
+      }
+      [data-theme="lab"] .btn-paste:hover {
+        border-color: var(--lab-blue);
+        color: var(--lab-blue);
+      }
+
+      /* View = white with blue border + blue text (tertiary) */
+      [data-theme="lab"] .btn-view {
+        background: var(--lab-surface);
+        color: var(--lab-blue);
+        border: 1px solid var(--lab-blue);
+        box-shadow: 0 1px 4px var(--lab-glow);
+      }
+      [data-theme="lab"] .btn-view:hover {
+        background: var(--lab-hover-tint);
+        border-color: var(--lab-blue-deep);
+      }
+
+      /* Secondary = white with gray border */
+      [data-theme="lab"] .btn-secondary {
+        background: var(--lab-surface);
+        color: var(--lab-text);
+        border: 1px solid var(--lab-border);
+      }
+      [data-theme="lab"] .btn-secondary:hover {
+        border-color: var(--lab-blue);
+        color: var(--lab-blue);
+      }
+
+      [data-theme="lab"] .btn-small {
+        border-radius: 6px;
+      }
+
+      /* ---- Cards: white instrument panels ---- */
+      [data-theme="lab"] .stored-card,
+      [data-theme="lab"] .profile-item,
+      [data-theme="lab"] .session-card,
+      [data-theme="lab"] .settings-panel,
+      [data-theme="lab"] .token-box,
+      [data-theme="lab"] .feed-section {
+        border-radius: 10px;
+        box-shadow: 0 1px 4px var(--lab-shadow-soft);
+      }
+      [data-theme="lab"] .stored-card:hover,
+      [data-theme="lab"] .profile-item:hover {
+        border-color: var(--lab-blue);
+        background-color: var(--lab-hover-tint);
+        box-shadow: 0 2px 8px var(--lab-shadow);
+      }
+      [data-theme="lab"] .stored-card-value {
+        border-radius: 6px;
+        background: var(--lab-surface-2);
+      }
+
+      /* ---- Toggles: gray track, blue active ---- */
+      [data-theme="lab"] .slider {
+        border-radius: 999px;
+        border: 1px solid var(--lab-border);
+      }
+      [data-theme="lab"] .slider:before {
+        background-color: var(--lab-surface);
+        box-shadow: 0 1px 3px var(--lab-shadow);
+      }
+      [data-theme="lab"] .switch input:checked + .slider {
+        background-color: var(--lab-blue);
+        border-color: var(--lab-blue-deep);
+      }
+      [data-theme="lab"] .switch input:checked + .slider:before {
+        background-color: var(--lab-surface);
+      }
+
+      /* ---- Dividers: thin cool-gray line ---- */
+      [data-theme="lab"] .divider {
+        border-top: 1px solid var(--lab-border);
+      }
+
+      /* ---- Inputs: white with blue focus ---- */
+      [data-theme="lab"] .text-input {
+        border-radius: 8px;
+        background: var(--lab-surface);
+        box-shadow: inset 0 1px 2px var(--lab-shadow-soft);
+      }
+      [data-theme="lab"] .text-input:focus {
+        border-color: var(--lab-blue);
+        box-shadow:
+          0 0 0 2px var(--lab-glow),
+          inset 0 1px 2px var(--lab-shadow-soft);
+      }
+      [data-theme="lab"] .cookie-edit-input {
+        border-radius: 6px;
+        background: var(--lab-surface);
+      }
+
+      /* ---- Tabs: muted gray inactive, blue underline active ---- */
+      [data-theme="lab"] .tab-bar {
+        border-bottom: 1px solid var(--lab-border);
+      }
+      [data-theme="lab"] .tab {
+        letter-spacing: 0.3px;
+        font-weight: 600;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.16s,
+          border-color 0.16s;
+      }
+      [data-theme="lab"] .tab:hover {
+        color: var(--lab-text);
+      }
+      [data-theme="lab"] .tab.active {
+        color: var(--lab-blue);
+        border-bottom-color: var(--lab-blue);
+      }
+
+      /* ---- Subtabs: segmented control ---- */
+      [data-theme="lab"] .subtab-bar {
+        background: var(--lab-bg);
+        border: 1px solid var(--lab-border);
+        border-radius: 8px;
+        padding: 3px;
+        box-shadow: inset 0 1px 2px var(--lab-shadow-soft);
+      }
+      [data-theme="lab"] .subtab {
+        border-radius: 6px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        transition:
+          color 0.16s,
+          background 0.16s;
+      }
+      [data-theme="lab"] .subtab:hover {
+        color: var(--lab-text);
+      }
+      [data-theme="lab"] .subtab.active {
+        color: var(--lab-blue);
+        background: var(--lab-surface);
+        box-shadow: 0 1px 3px var(--lab-shadow-soft);
+      }
+
+      /* ---- Section labels: uppercase technical ---- */
+      [data-theme="lab"] .section-label {
+        color: var(--lab-text-muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      [data-theme="lab"] .settings-panel h2 {
+        color: var(--lab-text);
+        letter-spacing: 0.02em;
+      }
+      [data-theme="lab"] .settings-section h3 {
+        color: var(--lab-text-muted);
+        letter-spacing: 0.08em;
+      }
+
+      /* ---- Status banners ---- */
+      [data-theme="lab"] .status {
+        border-radius: 8px;
+        box-shadow: 0 1px 4px var(--lab-shadow-soft);
+      }
+
+      /* ---- Empty states ---- */
+      [data-theme="lab"] .empty-state,
+      [data-theme="lab"] .settings-empty,
+      [data-theme="lab"] .storage-subempty,
+      [data-theme="lab"] .no-token {
+        color: var(--lab-text-muted);
+        border: 1px dashed var(--lab-border);
+        background: var(--lab-surface);
+        border-radius: 8px;
+      }
+
+      /* ---- Icon buttons ---- */
+      [data-theme="lab"] .icon-btn {
+        border-radius: 6px;
+      }
+      [data-theme="lab"] .copy-icon:hover,
+      [data-theme="lab"] .delete-icon:hover {
+        color: var(--lab-blue);
+      }
+
+      /* ---- Session timer: instrument readout ---- */
+      [data-theme="lab"] .session-card {
+        border: 1px solid var(--lab-border);
+      }
+      [data-theme="lab"] .session-card-name {
+        color: var(--lab-text);
+      }
+      [data-theme="lab"] .session-card-source {
+        background: var(--lab-surface-2);
+        border: 1px solid var(--lab-border);
+        color: var(--lab-text-muted);
+      }
+      [data-theme="lab"] .session-countdown {
+        color: var(--lab-blue);
+        letter-spacing: 1px;
+      }
+      [data-theme="lab"] .session-countdown.safe {
+        color: var(--lab-success);
+      }
+      [data-theme="lab"] .session-countdown.warning {
+        color: var(--lab-warning);
+      }
+      [data-theme="lab"] .session-countdown.danger,
+      [data-theme="lab"] .session-countdown.expired {
+        color: var(--lab-danger);
+      }
+      [data-theme="lab"] .session-meta {
+        color: var(--lab-text-muted);
+      }
+      [data-theme="lab"] .session-empty {
+        color: var(--lab-text-muted);
+      }
+
+      /* ---- Scrollbars: thin, gray thumb, blue hover ---- */
+      [data-theme="lab"] ::-webkit-scrollbar {
+        width: 4px;
+      }
+      [data-theme="lab"] ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      [data-theme="lab"] ::-webkit-scrollbar-thumb {
+        background: var(--lab-border);
+        border-radius: 999px;
+      }
+      [data-theme="lab"] ::-webkit-scrollbar-thumb:hover {
+        background: var(--lab-blue);
       }
     </style>
   </head>
