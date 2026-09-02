@@ -1,6 +1,6 @@
 # TokenHop
 
-Hop cookies & storage across sites — copy, paste, share, and debug with one click.
+Hop cookies & storage across sites -- copy, paste, share, and debug with one click.
 
 A Chrome extension for developers and QA teams to move auth tokens, localStorage, and sessionStorage between environments, clear site data, manage profiles, and track session expiry.
 
@@ -8,16 +8,16 @@ A Chrome extension for developers and QA teams to move auth tokens, localStorage
 
 ### Cookies
 
-- **Copy / Paste** — Transfer selected cookies + localStorage + sessionStorage between sites
-- **View Stored Data** — Inspect captured data in 3 sub-tabs (Cookies / Local / Session)
-- **Settings** — Per-site selection with toggle, copy, delete, and Select All per item
+- **Copy / Paste** -- Transfer selected cookies + localStorage + sessionStorage between sites
+- **View Stored Data** -- Inspect captured data in 3 sub-tabs (Cookies / Local / Session)
+- **Settings** -- Per-site selection with toggle, copy, delete, and Select All per item
 
 ### Dev Tools
 
-- **Clear Cookies / Local / Session** — Wipe individual storage types
-- **Nuke All** — Clear everything in one click
-- **Copy Shareable** — Generate a `TH1:...` string (gzipped) of selected data to share with teammates
-- **Feed Data** — Paste a shared `TH1:...` string and apply it to the current site
+- **Clear Cookies / Local / Session** -- Wipe individual storage types
+- **Nuke All** -- Clear everything in one click
+- **Copy Shareable** -- Generate a `TH1:...` string (gzipped) of selected data to share with teammates
+- **Feed Data** -- Paste a shared `TH1:...` string and apply it to the current site
 
 ### Session
 
@@ -30,31 +30,51 @@ A Chrome extension for developers and QA teams to move auth tokens, localStorage
 - Save named profiles (Admin, QA, Dev) with full stored data
 - Load / Delete profiles instantly
 
+## Keyboard Shortcuts
+
+| Shortcut           | Action                                        |
+| ------------------ | --------------------------------------------- |
+| `Ctrl+Shift+C`     | Copy selected data                            |
+| `Ctrl+Shift+V`     | Paste stored data                             |
+| `Ctrl+Shift+S`     | Copy shareable string                         |
+| `Left/Right Arrow` | Navigate between tabs (when a tab is focused) |
+
+## Themes
+
+Click the theme icon in the header to cycle through three themes:
+
+1. **Cookie** -- Warm freshly-baked chocolate-chip aesthetic (default)
+2. **Lab** -- Clean digital laboratory / precision instrument
+3. **Casino** -- Premium poker-room with emerald felt and gold accents
+
 ## Install
 
 1. Open `chrome://extensions/`
 2. Enable **Developer mode**
-3. Click **Load unpacked** → select the project folder
+3. Click **Load unpacked** -- select the project folder
 4. For updates: **Remove** then **Load unpacked** again (ensures permissions are granted)
 
 ## Share Session with a Teammate
 
-1. Select data in settings → click **Copy** on site A
-2. Go to Dev Tools → **Copy Shareable** → `TH1:...` copied to clipboard
+1. Select data in settings -- click **Copy** on site A
+2. Go to Dev Tools -- **Copy Shareable** -- `TH1:...` copied to clipboard
 3. Paste in Slack/Teams/email
-4. Teammate opens TokenHop → Dev Tools → **Feed Data** → paste → **Apply Data**
+4. Teammate opens TokenHop -- Dev Tools -- **Feed Data** -- paste -- **Apply Data**
 
 ## Tech
 
 - Chrome Extension Manifest V3
-- Vanilla JavaScript, no frameworks
+- Vanilla JavaScript (async/await, no frameworks)
 - Permissions: `cookies`, `storage`, `tabs`, `activeTab`, `scripting`
+- Content Security Policy locked to `self`
 
 ## Files
 
 ```
-manifest.json   — Extension config
-popup.html      — UI + CSS
-popup.js        — All logic
-README.md       — This file
+manifest.json   -- Extension config + CSP
+popup.html      -- UI structure (ARIA-accessible)
+popup.css       -- All styling (3 themes, external for caching)
+popup.js        -- All logic (async/await, modular sections)
+icon128.png     -- Extension icon
+README.md       -- This file
 ```
