@@ -12,7 +12,6 @@ const copyBtn = $("copyBtn");
 const pasteBtn = $("pasteBtn");
 const viewBtn = $("viewBtn");
 const settingsBtn = $("settingsBtn");
-const themeBtn = $("themeBtn");
 const settingsPanel = $("settingsPanel");
 const cookieList = $("cookieList");
 const lsList = $("lsList");
@@ -55,30 +54,29 @@ const CHECK_ICON_SVG =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 const TRASH_ICON_SVG =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>';
-const COOKIE_ICON_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9 4 4 0 0 0 4 4 4 4 0 0 0 4 4 1 1 0 0 0 1 1z"></path><circle cx="9" cy="9" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="14" cy="8" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="15" cy="14" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="9" cy="15" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="0.6" fill="currentColor" stroke="none"></circle></svg>';
-const CASINO_ICON_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5.5" stroke-dasharray="2.5 2.5"></circle><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"></circle></svg>';
-const LAB_ICON_SVG =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6.5L5 19a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 19l-5-9.5V3"></path><path d="M7.5 14h9"></path></svg>';
-
-const THEME_CYCLE = ["lab", "casino", "cookie"];
-const THEME_ICON = {
-  lab: LAB_ICON_SVG,
-  casino: CASINO_ICON_SVG,
-  cookie: COOKIE_ICON_SVG,
-};
 
 /* ============================================================
    PROMISIFIED CHROME API WRAPPERS
    ============================================================ */
+/* Cache the active tab for the popup's lifetime. chrome.tabs.query is async
+   and was called in nearly every handler; caching removes repeated round-trips. */
+let _cachedTab = null;
+
 function getCurrentTab() {
+  if (_cachedTab) return Promise.resolve(_cachedTab);
   return new Promise((resolve) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      resolve(tabs[0]);
+      _cachedTab = tabs[0] || null;
+      resolve(_cachedTab);
     });
   });
 }
+
+/* The popup is short-lived, but if the user switches tabs while it's open we
+   must refresh the cache so actions target the newly-active tab. */
+chrome.tabs.onActivated.addListener(() => {
+  _cachedTab = null;
+});
 
 function getCookiesForUrl(url) {
   return new Promise((resolve) => {
@@ -94,7 +92,7 @@ function setCookie(details) {
 
 function removeCookie(details) {
   return new Promise((resolve) => {
-    chrome.cookies.remove(details, () => resolve());
+    chrome.cookies.remove(details, (cookie) => resolve(cookie));
   });
 }
 
@@ -161,7 +159,13 @@ function showStatus(message, type) {
   statusEl.className = `status show ${type}`;
   statusEl.textContent = "";
   const msgNode = document.createElement("span");
-  msgNode.innerHTML = message.replace(/\n/g, "<br>");
+  /* Safe text rendering: split on newlines, insert <br> between text nodes.
+     Never use innerHTML — cookie/storage names flow here and could contain markup. */
+  const lines = String(message).split("\n");
+  lines.forEach((line, i) => {
+    if (i > 0) msgNode.appendChild(document.createElement("br"));
+    msgNode.appendChild(document.createTextNode(line));
+  });
   statusEl.appendChild(msgNode);
   const closeBtn = statusClose.cloneNode(true);
   closeBtn.addEventListener("click", () => {
@@ -170,11 +174,6 @@ function showStatus(message, type) {
   });
   statusEl.appendChild(closeBtn);
 }
-
-statusClose.addEventListener("click", () => {
-  statusEl.className = "status";
-  statusEl.innerHTML = "";
-});
 
 function copyToClipboard(text) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -244,28 +243,6 @@ function summarizeCounts(ck, lk, sk) {
   if (sk > 0) parts.push(`${sk} sessionStorage item${sk > 1 ? "s" : ""}`);
   return parts.join(", ");
 }
-
-/* ============================================================
-   THEME
-   ============================================================ */
-function applyTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  themeBtn.innerHTML = THEME_ICON[theme] || LAB_ICON_SVG;
-}
-
-async function initTheme() {
-  const result = await getStorage(["theme"]);
-  const theme = THEME_CYCLE.includes(result.theme) ? result.theme : "cookie";
-  applyTheme(theme);
-}
-
-themeBtn.addEventListener("click", () => {
-  const current = document.documentElement.getAttribute("data-theme");
-  const idx = THEME_CYCLE.indexOf(current);
-  const next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
-  applyTheme(next);
-  setStorage({ theme: next });
-});
 
 /* ============================================================
    TAB SWITCHING
@@ -445,9 +422,12 @@ async function injectStorage(tab, lsData, ssData) {
   );
 }
 
-/* Invalidate cache when tab navigates */
+/* Invalidate caches when tab navigates */
 chrome.tabs.onUpdated.addListener((tabId, info) => {
-  if (info.url || info.status === "loading") {
+  if (info.url) {
+    _cachedTab = null;
+    if (_storageCacheTabId === tabId) invalidateStorageCache();
+  } else if (info.status === "loading") {
     if (_storageCacheTabId === tabId) invalidateStorageCache();
   }
 });
@@ -456,11 +436,23 @@ chrome.tabs.onUpdated.addListener((tabId, info) => {
    SHARED: Gather selected data + Apply data to site
    ============================================================ */
 async function gatherSelectedData(tab) {
-  const [selectedCookies, selectedLS, selectedSS] = await Promise.all([
-    loadSelectedCookies(),
-    loadSelectedStorage("LS"),
-    loadSelectedStorage("SS"),
-  ]);
+  /* Batch all three selection reads into a single chrome.storage.local.get
+     call. Each loader otherwise calls getCurrentDomain() (a tab query) +
+     getStorage separately — 3 round-trips collapsed to 1. */
+  const domain = getDomainFromUrl(tab.url);
+  if (!domain) {
+    return {
+      error:
+        "Cannot detect site domain. Open a normal http(s) page and try again.",
+    };
+  }
+  const ckKey = `selectedCookies_${domain}`;
+  const lsKey = `selectedLS_${domain}`;
+  const ssKey = `selectedSS_${domain}`;
+  const result = await getStorage([ckKey, lsKey, ssKey]);
+  const selectedCookies = Array.isArray(result[ckKey]) ? result[ckKey] : [];
+  const selectedLS = Array.isArray(result[lsKey]) ? result[lsKey] : [];
+  const selectedSS = Array.isArray(result[ssKey]) ? result[ssKey] : [];
 
   if (
     selectedCookies.length === 0 &&
@@ -630,11 +622,20 @@ function renderCookieList(cookies, selected) {
         const tab = await getCurrentTab();
         if (!tab || !tab.url) return;
         const origin = getOriginFromUrl(tab.url);
-        await setCookie({ url: origin, name, value: newValue, path: "/" });
+        const result = await setCookie({
+          url: origin,
+          name,
+          value: newValue,
+          path: "/",
+        });
         input.replaceWith(label);
         label.textContent = name;
-        showStatus(`Updated ${name}`, "success");
-        refreshCookieList();
+        if (result) {
+          showStatus(`Updated ${name}`, "success");
+          refreshCookieList();
+        } else {
+          showStatus(`Failed to update ${name}.`, "error");
+        }
       }
 
       input.addEventListener("keydown", (e) => {
@@ -689,9 +690,13 @@ function renderCookieList(cookies, selected) {
       getCurrentTab().then((tab) => {
         if (!tab || !tab.url) return;
         const origin = getOriginFromUrl(tab.url);
-        removeCookie({ url: origin, name }).then(() => {
-          showStatus(`Deleted ${name}`, "success");
-          refreshCookieList();
+        removeCookie({ url: origin, name }).then((result) => {
+          if (result) {
+            showStatus(`Deleted ${name}`, "success");
+            refreshCookieList();
+          } else {
+            showStatus(`Failed to delete ${name}.`, "error");
+          }
         });
       });
     });
@@ -892,8 +897,16 @@ async function refreshStorageLists() {
 
   const storage = await captureStorage(tab);
   if (storage._error) {
-    lsList.innerHTML = `<div class="settings-empty">Cannot read localStorage: ${storage._error}</div>`;
-    ssList.innerHTML = `<div class="settings-empty">Cannot read sessionStorage: ${storage._error}</div>`;
+    const lsEmpty = document.createElement("div");
+    lsEmpty.className = "settings-empty";
+    lsEmpty.textContent = `Cannot read localStorage: ${storage._error}`;
+    lsList.innerHTML = "";
+    lsList.appendChild(lsEmpty);
+    const ssEmpty = document.createElement("div");
+    ssEmpty.className = "settings-empty";
+    ssEmpty.textContent = `Cannot read sessionStorage: ${storage._error}`;
+    ssList.innerHTML = "";
+    ssList.appendChild(ssEmpty);
     return;
   }
 
@@ -908,10 +921,13 @@ async function refreshStorageLists() {
     return;
   }
 
-  const [selLS, selSS] = await Promise.all([
-    loadSelectedStorage("LS"),
-    loadSelectedStorage("SS"),
-  ]);
+  /* Batch the two selection reads into a single chrome.storage.local.get. */
+  const domain = getDomainFromUrl(tab.url);
+  const lsKey = `selectedLS_${domain}`;
+  const ssKey = `selectedSS_${domain}`;
+  const sel = await getStorage([lsKey, ssKey]);
+  const selLS = Array.isArray(sel[lsKey]) ? sel[lsKey] : [];
+  const selSS = Array.isArray(sel[ssKey]) ? sel[ssKey] : [];
   renderStorageList(lsList, "LS", lsData, selLS);
   renderStorageList(ssList, "SS", ssData, selSS);
 }
@@ -954,9 +970,12 @@ autoRefreshToggle.addEventListener("change", () => {
 
 clearCacheBtn.addEventListener("click", async () => {
   await clearStorage();
-  showStatus("Extension cache cleared!", "success");
+  showStatus("Extension reset — all data cleared.", "success");
   hideTokenBox();
   updateCacheSize();
+  autoRefreshToggle.checked = false;
+  refreshCookieList();
+  refreshStorageLists();
   renderProfiles();
 });
 
@@ -1727,4 +1746,3 @@ document.addEventListener("keydown", (e) => {
 /* ============================================================
    INIT
    ============================================================ */
-initTheme();

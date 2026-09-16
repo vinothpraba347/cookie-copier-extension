@@ -39,14 +39,6 @@ A Chrome extension for developers and QA teams to move auth tokens, localStorage
 | `Ctrl+Shift+S`     | Copy shareable string                         |
 | `Left/Right Arrow` | Navigate between tabs (when a tab is focused) |
 
-## Themes
-
-Click the theme icon in the header to cycle through three themes:
-
-1. **Cookie** -- Warm freshly-baked chocolate-chip aesthetic (default)
-2. **Lab** -- Clean digital laboratory / precision instrument
-3. **Casino** -- Premium poker-room with emerald felt and gold accents
-
 ## Install
 
 1. Open `chrome://extensions/`
@@ -73,7 +65,7 @@ Click the theme icon in the header to cycle through three themes:
 ```
 manifest.json   -- Extension config + CSP
 popup.html      -- UI structure (ARIA-accessible)
-popup.css       -- All styling (3 themes, external for caching)
+popup.css       -- All styling (Lab theme, external for caching)
 popup.js        -- All logic (async/await, modular sections)
 icon128.png     -- Extension icon
 README.md       -- This file
