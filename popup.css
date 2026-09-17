@@ -5,76 +5,92 @@
 }
 
 /* ---------- Theme variables ---------- */
-/* ---------- Lab theme ----------
-         Premium digital laboratory / web session lab aesthetic.
-         Light, cool off-white surfaces, white instrument panels,
-         scientific blue accents, precise technical typography.
-         Calm, precise, technical -- a precision instrument.
+/* ---------- Haunted theme ----------
+         TokenHop -- The Haunted Developer Extension.
+         Premium Halloween control panel inside an abandoned haunted house.
+         Dark purple night sky, black foundations, Halloween orange actions,
+         toxic green status, ghost white text. Spooky, playful, premium.
       */
-:root[data-theme="lab"] {
-  --bg: #f5f7f8;
-  --panel: #ffffff;
-  --panel-border: #d9e0e4;
-  --card: #ffffff;
-  --card-border: #d9e0e4;
-  --card-hover-border: #1677ff;
-  --text: #182126;
-  --text-heading: #182126;
-  --text-meta: #66737a;
-  --text-muted: #8b969c;
-  --divider: #eef1f3;
-  --slider-off: #d9e0e4;
-  --slider-on: #1677ff;
-  --slider-knob: #ffffff;
-  --scrollbar: #b8c4ca;
-  --scrollbar-track: #f5f7f8;
-  --copy-icon: #66737a;
-  --copy-icon-hover: #1677ff;
-  --copy-icon-copied: #0f9d72;
-  --clear-btn: #d64545;
-  --clear-btn-hover: #b83838;
-  --success-bg: rgba(15, 157, 114, 0.1);
-  --success-text: #0f9d72;
-  --success-border: rgba(15, 157, 114, 0.3);
-  --error-bg: rgba(214, 69, 69, 0.08);
-  --error-text: #d64545;
-  --error-border: rgba(214, 69, 69, 0.3);
-  --info-bg: rgba(22, 119, 255, 0.08);
-  --info-text: #1677ff;
-  --info-border: rgba(22, 119, 255, 0.3);
-  --value-bg: #f8fafb;
-  --value-border: #d9e0e4;
-  --value-text: #66737a;
-  --gear-color: #66737a;
-  --gear-hover: #1677ff;
-  --tab-active: #1677ff;
-  --tab-inactive: #8b969c;
-  --input-bg: #ffffff;
-  --input-border: #d9e0e4;
-  --input-text: #182126;
-  --input-focus: #1677ff;
-  --danger-btn: #d64545;
-  --danger-btn-hover: #b83838;
-  --warning-btn: #d99000;
-  --warning-btn-hover: #b87d00;
+:root[data-theme="haunted"] {
+  /* Foundation palette */
+  --h-bg: #100b16;
+  --h-deep-purple: #1b1025;
+  --h-purple: #6c3fa5;
+  --h-purple-bright: #8e5cc7;
+  --h-orange: #ff7518;
+  --h-pumpkin: #ff9d2e;
+  --h-orange-dark: #c65300;
+  --h-ghost: #f5f1e8;
+  --h-green: #7ed957;
+  --h-toxic: #a8e063;
+  --h-green-dark: #304d2a;
+  --h-black: #080808;
+  --h-muted: #b8afc0;
+  --h-border: #4a3a55;
 
-  /* Lab-theme-only tokens for decorative CSS */
-  --lab-blue: #1677ff;
-  --lab-blue-deep: #2563eb;
-  --lab-cyan: #06b6d4;
-  --lab-success: #0f9d72;
-  --lab-warning: #d99000;
-  --lab-danger: #d64545;
-  --lab-bg: #f5f7f8;
-  --lab-surface: #ffffff;
-  --lab-surface-2: #f8fafb;
-  --lab-border: #d9e0e4;
-  --lab-text: #182126;
-  --lab-text-muted: #66737a;
-  --lab-shadow: rgba(24, 33, 38, 0.06);
-  --lab-shadow-soft: rgba(24, 33, 38, 0.03);
-  --lab-glow: rgba(22, 119, 255, 0.12);
-  --lab-hover-tint: #f4f8ff;
+  /* Mapped base tokens (consumed by base styles) */
+  --bg: var(--h-bg);
+  --panel: var(--h-deep-purple);
+  --panel-border: var(--h-border);
+  --card: var(--h-deep-purple);
+  --card-border: var(--h-border);
+  --card-hover-border: var(--h-orange);
+  --text: var(--h-ghost);
+  --text-heading: var(--h-ghost);
+  --text-meta: var(--h-muted);
+  --text-muted: var(--h-muted);
+  --divider: #2a1d3a;
+  --slider-off: #2a1d3a;
+  --slider-on: var(--h-toxic);
+  --slider-knob: var(--h-ghost);
+  --scrollbar: var(--h-purple);
+  --scrollbar-track: var(--h-deep-purple);
+  --copy-icon: var(--h-muted);
+  --copy-icon-hover: var(--h-orange);
+  --copy-icon-copied: var(--h-toxic);
+  --clear-btn: #c0392b;
+  --clear-btn-hover: #962d22;
+  --success-bg: rgba(126, 217, 87, 0.12);
+  --success-text: var(--h-toxic);
+  --success-border: rgba(126, 217, 87, 0.4);
+  --error-bg: rgba(192, 57, 43, 0.14);
+  --error-text: #ff6b5a;
+  --error-border: rgba(192, 57, 43, 0.5);
+  --info-bg: rgba(142, 92, 199, 0.14);
+  --info-text: var(--h-purple-bright);
+  --info-border: rgba(142, 92, 199, 0.45);
+  --value-bg: #160d22;
+  --value-border: var(--h-border);
+  --value-text: var(--h-muted);
+  --gear-color: var(--h-muted);
+  --gear-hover: var(--h-orange);
+  --tab-active: var(--h-orange);
+  --tab-inactive: var(--h-muted);
+  --input-bg: #160d22;
+  --input-border: var(--h-border);
+  --input-text: var(--h-ghost);
+  --input-focus: var(--h-orange);
+  --danger-btn: #c0392b;
+  --danger-btn-hover: #962d22;
+  --warning-btn: var(--h-orange);
+  --warning-btn-hover: var(--h-orange-dark);
+
+  /* Haunted decorative tokens */
+  --h-hard-shadow-sm: 2px 2px 0 var(--h-black);
+  --h-orange-glow: 0 0 10px rgba(255, 117, 24, 0.28);
+  --h-green-glow: 0 0 10px rgba(168, 224, 99, 0.28);
+  --h-shadow-soft: rgba(0, 0, 0, 0.35);
+
+  /* Halloween design tokens (semantic aliases) */
+  --halloween-bg: var(--h-bg);
+  --halloween-panel: var(--h-deep-purple);
+  --halloween-orange: var(--h-orange);
+  --halloween-purple: var(--h-purple);
+  --halloween-green: var(--h-toxic);
+  --halloween-text: var(--h-ghost);
+  --halloween-border: var(--h-border);
+  --halloween-shadow: rgba(0, 0, 0, 0.5);
+  --halloween-hard-shadow: 2px 3px 0 var(--halloween-shadow);
 }
 
 body {
@@ -85,9 +101,31 @@ body {
   background: var(--bg);
   color: var(--text);
   padding: 16px;
+  position: relative;
+  overflow-x: hidden;
   transition:
     background 0.2s,
     color 0.2s;
+}
+
+/* Haunted night-sky atmosphere (scoped to haunted theme) */
+[data-theme="haunted"] body {
+  background:
+    radial-gradient(
+      ellipse at 78% 8%,
+      rgba(142, 92, 199, 0.14) 0%,
+      rgba(142, 92, 199, 0) 42%
+    ),
+    radial-gradient(
+      ellipse at 15% 95%,
+      rgba(108, 63, 165, 0.1) 0%,
+      rgba(108, 63, 165, 0) 45%
+    ),
+    linear-gradient(180deg, #14091f 0%, #100b16 55%, #0c0813 100%);
+  border: 1px solid var(--h-border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 117, 24, 0.06),
+    inset 0 0 24px rgba(0, 0, 0, 0.4);
 }
 
 /* ---------- Header ---------- */
@@ -322,11 +360,6 @@ body {
 
 .btn-secondary:hover {
   border-color: var(--card-hover-border);
-}
-
-.btn-full {
-  width: 100%;
-  margin-bottom: 8px;
 }
 
 .btn-small {
@@ -834,13 +867,6 @@ textarea.text-input {
   word-break: break-all;
 }
 
-.no-token {
-  font-size: 11px;
-  color: var(--text-meta);
-  font-style: italic;
-  margin-top: 6px;
-}
-
 /* ---------- Storage empty state ---------- */
 .storage-subempty {
   font-size: 11px;
@@ -925,190 +951,607 @@ textarea.text-input {
 }
 
 /* ============================================================
-         Lab theme -- decorative layer
-         Scoped under [data-theme="lab"]. Premium digital laboratory
-         / web session lab. Cool off-white, white instrument panels,
-         scientific blue accents, precise technical typography.
-         Calm, precise, technical -- a precision instrument.
+         Haunted theme -- decorative + component layer
+         Scoped under [data-theme="haunted"]. Premium Halloween
+         control panel: dark purple night sky, black foundations,
+         Halloween orange actions, toxic green status, ghost
+         white text. Spooky, playful, premium, developer-focused.
       ============================================================ */
 
-/* ---- Header: instrument-style with blue divider ---- */
-[data-theme="lab"] .header {
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid var(--lab-border);
+/* ---- Decorative background layer (non-interactive) ---- */
+[data-theme="haunted"] .h-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
-[data-theme="lab"] .header h1 {
+[data-theme="haunted"] .header,
+[data-theme="haunted"] .settings-panel,
+[data-theme="haunted"] .tab-bar,
+[data-theme="haunted"] .tab-panel,
+[data-theme="haunted"] .status,
+[data-theme="haunted"] .token-box {
+  position: relative;
+  z-index: 1;
+}
+
+/* Moon */
+[data-theme="haunted"] .h-moon {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    #f5f1e8 0%,
+    #d9d2c4 70%,
+    #b8b0a0 100%
+  );
+  box-shadow:
+    0 0 14px rgba(245, 241, 232, 0.15),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.08);
+  opacity: 0.2;
+}
+
+/* Stars */
+[data-theme="haunted"] .h-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      1px 1px at 20px 30px,
+      rgba(245, 241, 232, 0.3),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 80px 60px,
+      rgba(245, 241, 232, 0.22),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 140px 22px,
+      rgba(245, 241, 232, 0.28),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 240px 80px,
+      rgba(245, 241, 232, 0.2),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 300px 40px,
+      rgba(245, 241, 232, 0.24),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 60px 120px,
+      rgba(245, 241, 232, 0.16),
+      transparent
+    );
+  opacity: 0.2;
+}
+
+/* Haunted house silhouette (very low contrast, atmospheric) */
+[data-theme="haunted"] .h-house {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 60px;
+  opacity: 0.14;
+  background: linear-gradient(transparent, #080808) no-repeat;
+}
+[data-theme="haunted"] .h-house svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Bats (subtle horizontal drift) */
+[data-theme="haunted"] .h-bat {
+  position: absolute;
+  width: 14px;
+  height: 8px;
+  opacity: 0.2;
+  color: #080808;
+}
+[data-theme="haunted"] .h-bat svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+[data-theme="haunted"] .h-bat--1 {
+  top: 38px;
+  left: 24px;
+}
+[data-theme="haunted"] .h-bat--2 {
+  top: 52px;
+  right: 40px;
+}
+
+/* Cobweb (corner, low contrast) */
+[data-theme="haunted"] .h-cobweb {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  opacity: 0.16;
+  color: #b8afc0;
+}
+[data-theme="haunted"] .h-cobweb svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+[data-theme="haunted"] .h-cobweb--tl {
+  top: -4px;
+  left: -4px;
+}
+[data-theme="haunted"] .h-cobweb--br {
+  bottom: -4px;
+  right: -4px;
+  transform: rotate(180deg);
+}
+
+/* Spider (sits on cobweb) */
+[data-theme="haunted"] .h-spider {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  opacity: 0.2;
+  color: #080808;
+}
+[data-theme="haunted"] .h-spider svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Floating ghost (slow 2-4px vertical, 2-3s loop) */
+[data-theme="haunted"] .h-ghost {
+  position: absolute;
+  bottom: 36px;
+  left: 14px;
+  width: 18px;
+  height: 22px;
+  opacity: 0.18;
+  color: #f5f1e8;
+}
+[data-theme="haunted"] .h-ghost svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Graveyard footer (subtle grass + tiny graves) */
+[data-theme="haunted"] .h-graveyard {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 18px;
+  opacity: 0.16;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0 10px;
+  pointer-events: none;
+}
+[data-theme="haunted"] .h-graveyard svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  color: #304d2a;
+}
+[data-theme="haunted"] .h-graveyard .h-grass {
+  width: 12px;
+  height: 10px;
+  color: #304d2a;
+}
+
+/* Pumpkin (small, near logo; tiny bounce on hover) */
+[data-theme="haunted"] .h-pumpkin {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 4px;
+  color: var(--h-pumpkin);
+  transition: transform 0.18s ease;
+}
+[data-theme="haunted"] .h-pumpkin svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+[data-theme="haunted"] .header:hover .h-pumpkin {
+  transform: translateY(-1px) rotate(-3deg);
+}
+
+/* ---- Animations (gated by reduced-motion) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes h-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+  @keyframes h-bat-drift {
+    0%,
+    100% {
+      transform: translateX(0) translateY(0);
+    }
+    50% {
+      transform: translateX(6px) translateY(-2px);
+    }
+  }
+  @keyframes h-cobweb-pulse {
+    0%,
+    100% {
+      opacity: 0.22;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+  [data-theme="haunted"] .h-ghost {
+    animation: h-float 2.6s ease-in-out infinite;
+  }
+  [data-theme="haunted"] .h-bat--1 {
+    animation: h-bat-drift 4.5s ease-in-out infinite;
+  }
+  [data-theme="haunted"] .h-bat--2 {
+    animation: h-bat-drift 5.5s ease-in-out infinite reverse;
+  }
+  [data-theme="haunted"] .h-cobweb--tl {
+    animation: h-cobweb-pulse 6s ease-in-out infinite;
+  }
+}
+
+/* ---- Header: cohesive haunted control-panel header (grid layout) ---- */
+[data-theme="haunted"] .header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  padding: 4px 4px 10px 2px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--h-border);
+  text-align: left;
+}
+[data-theme="haunted"] .header h1 {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 16px;
   font-weight: 800;
-  letter-spacing: -0.2px;
-  color: var(--lab-text);
+  letter-spacing: 0.8px;
+  color: var(--h-pumpkin);
+  text-shadow:
+    0 0 8px rgba(255, 117, 24, 0.3),
+    0 0 2px rgba(108, 63, 165, 0.5);
 }
-[data-theme="lab"] .header p {
-  font-size: 9px;
-  color: var(--lab-text-muted);
-  letter-spacing: 1.2px;
+[data-theme="haunted"] .header p {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 8.5px;
+  color: var(--h-muted);
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   font-weight: 700;
-  margin-top: 2px;
+  margin-top: 4px;
+  padding-left: 2px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+/* Zombie-green status dot before subtitle (aligned with text) */
+[data-theme="haunted"] .header p::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--h-toxic);
+  box-shadow: 0 0 6px rgba(168, 224, 99, 0.7);
+  margin-right: 6px;
+  flex-shrink: 0;
 }
 
-/* ---- Buttons: clean instrument controls ---- */
-[data-theme="lab"] .btn {
+/* ---- Settings button: integrated control-panel button ---- */
+[data-theme="haunted"] .header-actions {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  position: static;
+  display: flex;
+  gap: 6px;
+}
+[data-theme="haunted"] .settings-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--h-border);
   border-radius: 8px;
-  border: 1px solid transparent;
-  box-shadow: 0 1px 3px var(--lab-shadow-soft);
+  background: var(--h-deep-purple);
+  color: var(--h-muted);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition:
-    background 0.16s,
-    transform 0.16s,
-    box-shadow 0.16s,
-    border-color 0.16s;
+    color 0.18s,
+    background 0.18s,
+    border-color 0.18s,
+    box-shadow 0.18s,
+    transform 0.18s;
 }
-[data-theme="lab"] .btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px var(--lab-shadow);
+[data-theme="haunted"] .settings-btn svg {
+  width: 18px;
+  height: 18px;
 }
-[data-theme="lab"] .btn:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 1px 2px var(--lab-shadow-soft);
-}
-
-/* Copy = scientific blue primary */
-[data-theme="lab"] .btn-copy {
-  background: var(--lab-blue);
-  color: #ffffff;
-  border-color: var(--lab-blue-deep);
-}
-[data-theme="lab"] .btn-copy:hover {
-  background: var(--lab-blue-deep);
-}
-
-/* Paste = dark neutral with blue outline */
-[data-theme="lab"] .btn-paste {
-  background: var(--lab-surface);
-  color: var(--lab-text);
-  border: 1px solid var(--lab-border);
-}
-[data-theme="lab"] .btn-paste:hover {
-  border-color: var(--lab-blue);
-  color: var(--lab-blue);
-}
-
-/* View = white with blue border + blue text (tertiary) */
-[data-theme="lab"] .btn-view {
-  background: var(--lab-surface);
-  color: var(--lab-blue);
-  border: 1px solid var(--lab-blue);
-  box-shadow: 0 1px 4px var(--lab-glow);
-}
-[data-theme="lab"] .btn-view:hover {
-  background: var(--lab-hover-tint);
-  border-color: var(--lab-blue-deep);
-}
-
-/* Secondary = white with gray border */
-[data-theme="lab"] .btn-secondary {
-  background: var(--lab-surface);
-  color: var(--lab-text);
-  border: 1px solid var(--lab-border);
-}
-[data-theme="lab"] .btn-secondary:hover {
-  border-color: var(--lab-blue);
-  color: var(--lab-blue);
-}
-
-[data-theme="lab"] .btn-small {
-  border-radius: 6px;
-}
-
-/* ---- Cards: white instrument panels ---- */
-[data-theme="lab"] .stored-card,
-[data-theme="lab"] .profile-item,
-[data-theme="lab"] .session-card,
-[data-theme="lab"] .settings-panel,
-[data-theme="lab"] .token-box,
-[data-theme="lab"] .feed-section {
-  border-radius: 10px;
-  box-shadow: 0 1px 4px var(--lab-shadow-soft);
-}
-[data-theme="lab"] .stored-card:hover,
-[data-theme="lab"] .profile-item:hover {
-  border-color: var(--lab-blue);
-  background-color: var(--lab-hover-tint);
-  box-shadow: 0 2px 8px var(--lab-shadow);
-}
-[data-theme="lab"] .stored-card-value {
-  border-radius: 6px;
-  background: var(--lab-surface-2);
-}
-
-/* ---- Toggles: gray track, blue active ---- */
-[data-theme="lab"] .slider {
-  border-radius: 999px;
-  border: 1px solid var(--lab-border);
-}
-[data-theme="lab"] .slider:before {
-  background-color: var(--lab-surface);
-  box-shadow: 0 1px 3px var(--lab-shadow);
-}
-[data-theme="lab"] .switch input:checked + .slider {
-  background-color: var(--lab-blue);
-  border-color: var(--lab-blue-deep);
-}
-[data-theme="lab"] .switch input:checked + .slider:before {
-  background-color: var(--lab-surface);
-}
-
-/* ---- Dividers: thin cool-gray line ---- */
-[data-theme="lab"] .divider {
-  border-top: 1px solid var(--lab-border);
-}
-
-/* ---- Inputs: white with blue focus ---- */
-[data-theme="lab"] .text-input {
-  border-radius: 8px;
-  background: var(--lab-surface);
-  box-shadow: inset 0 1px 2px var(--lab-shadow-soft);
-}
-[data-theme="lab"] .text-input:focus {
-  border-color: var(--lab-blue);
+[data-theme="haunted"] .settings-btn:hover {
+  color: var(--h-orange);
+  background: #221634;
+  border-color: var(--h-orange);
   box-shadow:
-    0 0 0 2px var(--lab-glow),
-    inset 0 1px 2px var(--lab-shadow-soft);
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    var(--h-orange-glow);
+  transform: rotate(45deg);
 }
-[data-theme="lab"] .cookie-edit-input {
-  border-radius: 6px;
-  background: var(--lab-surface);
+[data-theme="haunted"] .settings-btn:active {
+  transform: translateY(1px) rotate(45deg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+[data-theme="haunted"] .settings-btn:focus-visible {
+  outline: 2px solid var(--h-orange);
+  outline-offset: 2px;
 }
 
-/* ---- Tabs: muted gray inactive, blue underline active ---- */
-[data-theme="lab"] .tab-bar {
-  border-bottom: 1px solid var(--lab-border);
+/* ---- Pumpkin: align with text baseline ---- */
+[data-theme="haunted"] .h-pumpkin {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  align-self: center;
+  margin-right: 0;
+  color: var(--h-pumpkin);
+  transition: transform 0.18s ease;
 }
-[data-theme="lab"] .tab {
+[data-theme="haunted"] .h-pumpkin svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+[data-theme="haunted"] .header:hover .h-pumpkin {
+  transform: translateY(-1px) rotate(-3deg);
+}
+
+/* ---- Buttons: chunky haunted controls ---- */
+[data-theme="haunted"] .btn {
+  border-radius: 8px;
+  border: 2px solid var(--h-black);
+  box-shadow: var(--halloween-hard-shadow);
+  min-height: 40px;
+  transition:
+    background 0.18s,
+    transform 0.18s,
+    box-shadow 0.18s,
+    border-color 0.18s;
+}
+[data-theme="haunted"] .btn:hover {
+  transform: translateY(-1px);
+}
+[data-theme="haunted"] .btn:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 var(--halloween-shadow);
+}
+[data-theme="haunted"] .btn-copy,
+[data-theme="haunted"] .btn-paste {
+  min-height: 40px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+
+/* Copy = pumpkin orange */
+[data-theme="haunted"] .btn-copy {
+  background: var(--h-pumpkin);
+  color: var(--h-black);
+}
+[data-theme="haunted"] .btn-copy:hover {
+  background: var(--h-orange);
+  box-shadow: var(--halloween-hard-shadow), var(--h-orange-glow);
+}
+
+/* Paste = toxic green */
+[data-theme="haunted"] .btn-paste {
+  background: var(--h-toxic);
+  color: var(--h-black);
+}
+[data-theme="haunted"] .btn-paste:hover {
+  background: var(--h-green);
+  box-shadow: var(--halloween-hard-shadow), var(--h-green-glow);
+}
+
+/* View = Halloween orange CTA */
+[data-theme="haunted"] .btn-view {
+  min-height: 42px;
+  background: var(--h-orange);
+  color: var(--h-ghost);
+  box-shadow: var(--halloween-hard-shadow), var(--h-orange-glow);
+}
+[data-theme="haunted"] .btn-view svg {
+  width: 14px;
+  height: 14px;
+}
+[data-theme="haunted"] .btn-view:hover {
+  background: var(--h-orange-dark);
+  transform: translateY(-1px);
+  box-shadow:
+    var(--halloween-hard-shadow),
+    0 0 14px rgba(255, 117, 24, 0.4);
+}
+
+/* ---- Spacing rhythm (4 / 8 / 12 / 16 / 20) ---- */
+[data-theme="haunted"] .action-row {
+  margin-bottom: 12px;
+}
+[data-theme="haunted"] .btn-view {
+  margin-bottom: 12px;
+}
+
+/* Danger / warning / secondary */
+[data-theme="haunted"] .btn-danger {
+  background: var(--danger-btn);
+  color: var(--h-ghost);
+}
+[data-theme="haunted"] .btn-danger:hover {
+  background: var(--danger-btn-hover);
+}
+[data-theme="haunted"] .btn-warning {
+  background: var(--warning-btn);
+  color: var(--h-black);
+}
+[data-theme="haunted"] .btn-warning:hover {
+  background: var(--warning-btn-hover);
+  color: var(--h-ghost);
+}
+[data-theme="haunted"] .btn-secondary {
+  background: var(--h-deep-purple);
+  color: var(--h-ghost);
+  border-color: var(--h-border);
+}
+[data-theme="haunted"] .btn-secondary:hover {
+  border-color: var(--h-orange);
+  color: var(--h-orange);
+}
+[data-theme="haunted"] .btn-small {
+  border-radius: 6px;
+  box-shadow: var(--h-hard-shadow-sm);
+}
+
+/* ---- Cards: haunted control panels ---- */
+[data-theme="haunted"] .stored-card,
+[data-theme="haunted"] .profile-item,
+[data-theme="haunted"] .session-card,
+[data-theme="haunted"] .settings-panel,
+[data-theme="haunted"] .token-box,
+[data-theme="haunted"] .feed-section {
+  border-radius: 10px;
+  background: var(--h-deep-purple);
+  border: 1px solid var(--h-border);
+  box-shadow: 0 2px 6px var(--h-shadow-soft);
+}
+[data-theme="haunted"] .stored-card:hover,
+[data-theme="haunted"] .profile-item:hover {
+  border-color: var(--h-orange);
+  box-shadow:
+    0 2px 8px var(--h-shadow-soft),
+    var(--h-orange-glow);
+}
+[data-theme="haunted"] .stored-card-value {
+  border-radius: 6px;
+  background: #160d22;
+  border-color: var(--h-border);
+}
+
+/* ---- Toggles: dark track, toxic green active ---- */
+[data-theme="haunted"] .slider {
+  border-radius: 999px;
+  border: 1px solid var(--h-border);
+  background-color: #2a1d3a;
+}
+[data-theme="haunted"] .slider:before {
+  background-color: var(--h-ghost);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+[data-theme="haunted"] .switch input:checked + .slider {
+  background-color: var(--h-toxic);
+  border-color: var(--h-green-dark);
+  box-shadow: var(--h-green-glow);
+}
+[data-theme="haunted"] .switch input:checked + .slider:before {
+  background-color: var(--h-ghost);
+}
+
+/* ---- Dividers ---- */
+[data-theme="haunted"] .divider {
+  border-top: 1px solid var(--h-border);
+}
+
+/* ---- Inputs: dark purple with orange focus ---- */
+[data-theme="haunted"] .text-input {
+  border-radius: 8px;
+  background: #160d22;
+  border-color: var(--h-border);
+  color: var(--h-ghost);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+[data-theme="haunted"] .text-input::placeholder {
+  color: var(--h-muted);
+}
+[data-theme="haunted"] .text-input:focus {
+  border-color: var(--h-orange);
+  box-shadow:
+    0 0 0 2px rgba(255, 117, 24, 0.25),
+    inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+[data-theme="haunted"] .cookie-edit-input {
+  border-radius: 6px;
+  background: #160d22;
+  border-color: var(--h-orange);
+  color: var(--h-ghost);
+}
+
+/* ---- Tabs: haunted control panels ---- */
+[data-theme="haunted"] .tab-bar {
+  border-bottom: 2px solid var(--h-border);
+  margin-bottom: 12px;
+}
+[data-theme="haunted"] .tab {
+  padding: 9px 4px;
   letter-spacing: 0.3px;
   font-weight: 600;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-radius: 0 0 3px 3px;
+  margin-bottom: -2px;
   transition:
-    color 0.16s,
-    border-color 0.16s;
+    color 0.18s,
+    border-color 0.18s,
+    background 0.18s,
+    transform 0.18s;
 }
-[data-theme="lab"] .tab:hover {
-  color: var(--lab-text);
+[data-theme="haunted"] .tab:hover {
+  color: var(--h-purple-bright);
+  background: rgba(255, 117, 24, 0.08);
+  transform: translateY(-1px);
 }
-[data-theme="lab"] .tab.active {
-  color: var(--lab-blue);
-  border-bottom-color: var(--lab-blue);
+[data-theme="haunted"] .tab.active {
+  color: var(--h-orange);
+  border-bottom-color: var(--h-orange);
+  text-shadow: 0 0 6px rgba(255, 117, 24, 0.4);
 }
 
-/* ---- Subtabs: segmented control ---- */
-[data-theme="lab"] .subtab-bar {
-  background: var(--lab-bg);
-  border: 1px solid var(--lab-border);
+/* ---- Subtabs: segmented haunted control ---- */
+[data-theme="haunted"] .subtab-bar {
+  background: #160d22;
+  border: 1px solid var(--h-border);
   border-radius: 8px;
   padding: 3px;
-  box-shadow: inset 0 1px 2px var(--lab-shadow-soft);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-[data-theme="lab"] .subtab {
+[data-theme="haunted"] .subtab {
   border-radius: 6px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -1116,103 +1559,173 @@ textarea.text-input {
     color 0.16s,
     background 0.16s;
 }
-[data-theme="lab"] .subtab:hover {
-  color: var(--lab-text);
+[data-theme="haunted"] .subtab:hover {
+  color: var(--h-ghost);
 }
-[data-theme="lab"] .subtab.active {
-  color: var(--lab-blue);
-  background: var(--lab-surface);
-  box-shadow: 0 1px 3px var(--lab-shadow-soft);
+[data-theme="haunted"] .subtab.active {
+  color: var(--h-black);
+  background: var(--h-pumpkin);
+  box-shadow: var(--h-orange-glow);
 }
 
-/* ---- Section labels: uppercase technical ---- */
-[data-theme="lab"] .section-label {
-  color: var(--lab-text-muted);
+/* ---- Section labels ---- */
+[data-theme="haunted"] .section-label {
+  color: var(--h-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
 }
-[data-theme="lab"] .settings-panel h2 {
-  color: var(--lab-text);
-  letter-spacing: 0.02em;
+[data-theme="haunted"] .settings-panel h2 {
+  color: var(--h-ghost);
+  letter-spacing: 0.04em;
 }
-[data-theme="lab"] .settings-section h3 {
-  color: var(--lab-text-muted);
+[data-theme="haunted"] .settings-section h3 {
+  color: var(--h-muted);
   letter-spacing: 0.08em;
+}
+[data-theme="haunted"] .cookie-toggle {
+  border-bottom-color: var(--h-border);
+}
+[data-theme="haunted"] .cookie-toggle span {
+  color: var(--h-ghost);
 }
 
 /* ---- Status banners ---- */
-[data-theme="lab"] .status {
+[data-theme="haunted"] .status {
   border-radius: 8px;
-  box-shadow: 0 1px 4px var(--lab-shadow-soft);
+  box-shadow: 0 2px 6px var(--h-shadow-soft);
+}
+[data-theme="haunted"] .status.success {
+  background: var(--success-bg);
+  color: var(--h-toxic);
+  border-color: var(--success-border);
+}
+[data-theme="haunted"] .status.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-color: var(--error-border);
+}
+[data-theme="haunted"] .status.info {
+  background: var(--info-bg);
+  color: var(--info-text);
+  border-color: var(--info-border);
 }
 
 /* ---- Empty states ---- */
-[data-theme="lab"] .empty-state,
-[data-theme="lab"] .settings-empty,
-[data-theme="lab"] .storage-subempty,
-[data-theme="lab"] .no-token {
-  color: var(--lab-text-muted);
-  border: 1px dashed var(--lab-border);
-  background: var(--lab-surface);
+[data-theme="haunted"] .empty-state,
+[data-theme="haunted"] .settings-empty,
+[data-theme="haunted"] .storage-subempty,
+[data-theme="haunted"] .session-empty {
+  color: var(--h-muted);
+  border: 1px dashed var(--h-border);
+  background: rgba(27, 16, 37, 0.5);
   border-radius: 8px;
 }
 
 /* ---- Icon buttons ---- */
-[data-theme="lab"] .icon-btn {
+[data-theme="haunted"] .icon-btn {
   border-radius: 6px;
 }
-[data-theme="lab"] .copy-icon:hover,
-[data-theme="lab"] .delete-icon:hover {
-  color: var(--lab-blue);
+[data-theme="haunted"] .copy-icon {
+  color: var(--h-muted);
+}
+[data-theme="haunted"] .copy-icon:hover {
+  color: var(--h-orange);
+}
+[data-theme="haunted"] .copy-icon.copied {
+  color: var(--h-toxic);
+}
+[data-theme="haunted"] .delete-icon {
+  color: var(--h-muted);
+}
+[data-theme="haunted"] .delete-icon:hover {
+  color: var(--danger-btn);
 }
 
-/* ---- Session timer: instrument readout ---- */
-[data-theme="lab"] .session-card {
-  border: 1px solid var(--lab-border);
+/* ---- Session timer: haunted readout ---- */
+[data-theme="haunted"] .session-card {
+  border: 1px solid var(--h-border);
 }
-[data-theme="lab"] .session-card-name {
-  color: var(--lab-text);
+[data-theme="haunted"] .session-card-name {
+  color: var(--h-ghost);
 }
-[data-theme="lab"] .session-card-source {
-  background: var(--lab-surface-2);
-  border: 1px solid var(--lab-border);
-  color: var(--lab-text-muted);
+[data-theme="haunted"] .session-card-source {
+  background: #160d22;
+  border: 1px solid var(--h-border);
+  color: var(--h-muted);
 }
-[data-theme="lab"] .session-countdown {
-  color: var(--lab-blue);
+[data-theme="haunted"] .session-countdown {
+  color: var(--h-purple-bright);
   letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(142, 92, 199, 0.3);
 }
-[data-theme="lab"] .session-countdown.safe {
-  color: var(--lab-success);
+[data-theme="haunted"] .session-countdown.safe {
+  color: var(--h-toxic);
+  text-shadow: 0 0 8px rgba(168, 224, 99, 0.4);
 }
-[data-theme="lab"] .session-countdown.warning {
-  color: var(--lab-warning);
+[data-theme="haunted"] .session-countdown.warning {
+  color: var(--h-pumpkin);
+  text-shadow: 0 0 8px rgba(255, 157, 46, 0.4);
 }
-[data-theme="lab"] .session-countdown.danger,
-[data-theme="lab"] .session-countdown.expired {
-  color: var(--lab-danger);
+[data-theme="haunted"] .session-countdown.danger,
+[data-theme="haunted"] .session-countdown.expired {
+  color: #ff6b5a;
+  text-shadow: 0 0 8px rgba(255, 107, 90, 0.4);
 }
-[data-theme="lab"] .session-meta {
-  color: var(--lab-text-muted);
-}
-[data-theme="lab"] .session-empty {
-  color: var(--lab-text-muted);
+[data-theme="haunted"] .session-meta {
+  color: var(--h-muted);
 }
 
-/* ---- Scrollbars: thin, gray thumb, blue hover ---- */
-[data-theme="lab"] ::-webkit-scrollbar {
+/* ---- Profile list ---- */
+[data-theme="haunted"] .profile-item-name {
+  color: var(--h-ghost);
+}
+
+/* ---- Cache row ---- */
+[data-theme="haunted"] .cache-label {
+  color: var(--h-muted);
+}
+[data-theme="haunted"] .cache-size {
+  color: var(--h-ghost);
+}
+[data-theme="haunted"] .btn-clear-cache {
+  background: var(--danger-btn);
+  color: var(--h-ghost);
+  border: 1px solid var(--h-black);
+}
+[data-theme="haunted"] .btn-clear-cache:hover {
+  background: var(--danger-btn-hover);
+}
+
+/* ---- Scrollbars: thin, purple/orange ---- */
+[data-theme="haunted"] ::-webkit-scrollbar {
   width: 4px;
 }
-[data-theme="lab"] ::-webkit-scrollbar-track {
+[data-theme="haunted"] ::-webkit-scrollbar-track {
   background: transparent;
 }
-[data-theme="lab"] ::-webkit-scrollbar-thumb {
-  background: var(--lab-border);
+[data-theme="haunted"] ::-webkit-scrollbar-thumb {
+  background: var(--h-purple);
   border-radius: 999px;
 }
-[data-theme="lab"] ::-webkit-scrollbar-thumb:hover {
-  background: var(--lab-blue);
+[data-theme="haunted"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--h-orange);
+}
+
+/* ---- Keyboard focus: orange outline on dark bg ---- */
+[data-theme="haunted"] .tab:focus-visible,
+[data-theme="haunted"] .subtab:focus-visible {
+  outline: 2px solid var(--h-orange);
+  outline-offset: 2px;
+}
+[data-theme="haunted"] .btn:focus-visible {
+  outline: 2px solid var(--h-orange);
+  outline-offset: 2px;
+}
+[data-theme="haunted"] .icon-btn:focus-visible {
+  outline: 2px solid var(--h-orange);
+  outline-offset: 1px;
+  border-radius: 4px;
 }
 
 /* ============================================================

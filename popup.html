@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="lab">
+<html lang="en" data-theme="haunted">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,9 +7,201 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
+    <!-- Haunted decorative background (non-interactive) -->
+    <div class="h-bg" aria-hidden="true">
+      <div class="h-stars"></div>
+      <div class="h-moon"></div>
+      <div class="h-house">
+        <svg
+          viewBox="0 0 120 60"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="10,60 10,28 22,28 30,18 38,28 50,28 50,12 60,4 70,12 70,28 82,28 90,18 98,28 110,28 110,60"
+            fill="#080808"
+          ></polygon>
+          <rect x="30" y="38" width="8" height="10" fill="#1b1025"></rect>
+          <rect x="82" y="38" width="8" height="10" fill="#1b1025"></rect>
+          <rect x="56" y="40" width="8" height="20" fill="#1b1025"></rect>
+        </svg>
+      </div>
+      <div class="h-bat h-bat--1">
+        <svg
+          viewBox="0 0 24 14"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 4c-1-2-3-3-5-3 1 1 1 2 1 3-2-1-4-1-6 0 2 2 4 3 5 4-2 1-3 2-4 4 2-1 4-1 6 0 1 1 2 2 3 2s2-1 3-2c2-1 4-1 6 0-1-2-2-3-4-4 1-1 3-2 5-4-2-1-4-1-6 0 0-1 0-2 1-3-2 0-4 1-5 3z"
+          ></path>
+        </svg>
+      </div>
+      <div class="h-bat h-bat--2">
+        <svg
+          viewBox="0 0 24 14"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 4c-1-2-3-3-5-3 1 1 1 2 1 3-2-1-4-1-6 0 2 2 4 3 5 4-2 1-3 2-4 4 2-1 4-1 6 0 1 1 2 2 3 2s2-1 3-2c2-1 4-1 6 0-1-2-2-3-4-4 1-1 3-2 5-4-2-1-4-1-6 0 0-1 0-2 1-3-2 0-4 1-5 3z"
+          ></path>
+        </svg>
+      </div>
+      <div class="h-cobweb h-cobweb--tl">
+        <svg
+          viewBox="0 0 70 70"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="0.8"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line x1="0" y1="0" x2="70" y2="70"></line>
+          <line x1="0" y1="0" x2="70" y2="35"></line>
+          <line x1="0" y1="0" x2="35" y2="70"></line>
+          <line x1="0" y1="0" x2="70" y2="0"></line>
+          <line x1="0" y1="0" x2="0" y2="70"></line>
+          <path d="M0 0 Q12 12 24 12"></path>
+          <path d="M0 0 Q18 18 36 18"></path>
+          <path d="M0 0 Q24 24 48 24"></path>
+          <path d="M0 0 Q10 10 10 20"></path>
+          <path d="M0 0 Q20 20 20 40"></path>
+        </svg>
+      </div>
+      <div class="h-cobweb h-cobweb--br">
+        <svg
+          viewBox="0 0 70 70"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="0.8"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line x1="0" y1="0" x2="70" y2="70"></line>
+          <line x1="0" y1="0" x2="70" y2="35"></line>
+          <line x1="0" y1="0" x2="35" y2="70"></line>
+          <path d="M0 0 Q12 12 24 12"></path>
+          <path d="M0 0 Q18 18 36 18"></path>
+          <path d="M0 0 Q24 24 48 24"></path>
+        </svg>
+      </div>
+      <div class="h-spider">
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <line
+            x1="12"
+            y1="8"
+            x2="4"
+            y2="2"
+            stroke="currentColor"
+            stroke-width="1"
+          ></line>
+          <line
+            x1="12"
+            y1="8"
+            x2="20"
+            y2="2"
+            stroke="currentColor"
+            stroke-width="1"
+          ></line>
+          <line
+            x1="12"
+            y1="16"
+            x2="6"
+            y2="22"
+            stroke="currentColor"
+            stroke-width="1"
+          ></line>
+          <line
+            x1="12"
+            y1="16"
+            x2="18"
+            y2="22"
+            stroke="currentColor"
+            stroke-width="1"
+          ></line>
+        </svg>
+      </div>
+      <div class="h-ghost">
+        <svg
+          viewBox="0 0 24 28"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 1C7 1 4 5 4 10v13l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V10c0-5-3-9-8-9zM9 9a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm6 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"
+          ></path>
+        </svg>
+      </div>
+      <div class="h-graveyard">
+        <svg
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M3 16V7c0-2 2-3 4-3s4 1 4 3v9H3z"></path>
+        </svg>
+        <svg
+          class="h-grass"
+          viewBox="0 0 12 10"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 10V4l1 1V10zM4 10V2l1 1V10zM7 10V4l1 1V10zM10 10V3l1 1V10z"
+          ></path>
+        </svg>
+        <svg
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M5 16V8c0-2 2-3 3-3s3 1 3 3v8H5z"></path>
+        </svg>
+        <svg
+          class="h-grass"
+          viewBox="0 0 12 10"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 10V4l1 1V10zM4 10V2l1 1V10zM7 10V4l1 1V10zM10 10V3l1 1V10z"
+          ></path>
+        </svg>
+      </div>
+    </div>
     <!-- Header -->
     <div class="header">
-      <h1>🔑 TokenHop</h1>
+      <h1>
+        <span class="h-pumpkin" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 4c-1 0-2 .3-2 .7C9 4.3 8 4 7 4 4 4 2 6.5 2 10s2 6 5 6c1 0 2-.3 3-.7.7.4 1.7.7 2 .7s1.3-.3 2-.7c1 .4 2 .7 3 .7 3 0 5-2.5 5-6s-2-6-5-6c-1 0-2 .3-3 .7-.7-.4-1.7-.7-2-.7z"
+              fill="#ff9d2e"
+              stroke="#080808"
+              stroke-width="1"
+            ></path>
+            <rect
+              x="11"
+              y="2"
+              width="2"
+              height="3"
+              fill="#304d2a"
+              stroke="#080808"
+              stroke-width="0.5"
+            ></rect>
+            <path d="M9 9l1 1-1 1zM15 9l-1 1 1 1z" fill="#080808"></path>
+          </svg>
+        </span>
+        TokenHop
+      </h1>
       <p>Hop cookies &amp; storage across sites</p>
       <div class="header-actions">
         <button

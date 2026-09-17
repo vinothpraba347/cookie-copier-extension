@@ -65,7 +65,7 @@ A Chrome extension for developers and QA teams to move auth tokens, localStorage
 ```
 manifest.json   -- Extension config + CSP
 popup.html      -- UI structure (ARIA-accessible)
-popup.css       -- All styling (Lab theme, external for caching)
+popup.css       -- All styling (haunted theme, external for caching)
 popup.js        -- All logic (async/await, modular sections)
 icon128.png     -- Extension icon
 README.md       -- This file
